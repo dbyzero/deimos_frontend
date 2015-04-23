@@ -14,6 +14,12 @@ var Main = React.createClass({
     },
 
     render: function() {
+        var show = {
+            'display':'block'
+        };
+        var hide = {
+            'display':'none'
+        };
         return (
             <div style={{
                 position:'fixed',
@@ -26,8 +32,8 @@ var Main = React.createClass({
                 <strong>Pluck panel control</strong>
                 <div>Is connected : <Led connected={this.state.appStore.isConnected}/>
                 </div>
-                <button onClick={this.connect}> connect </button>
-                <button onClick={this.disconnect}> diconnect </button>
+                <button onClick={this.connect} style={this.state.appStore.isConnected ? hide : show}> connect </button>
+                <button onClick={this.disconnect} style={this.state.appStore.isConnected ? show : hide}> diconnect </button>
             </div>
         );
     },

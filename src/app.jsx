@@ -1,8 +1,10 @@
 var React = require('react');
+var AppActions = require('./actions/AppActions');
 var Main = require('./components/Main.jsx');
 
 var run = function(){
 	var el = document.createElement('section');
+	AppActions.init();
 	React.render(<Main domElement={el}/>,el);
 	document.body.appendChild(el);
 }

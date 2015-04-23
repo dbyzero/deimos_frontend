@@ -4,6 +4,7 @@ var io = require('socket.io-client');
 
 // Test actions
 var Actions = Reflux.createActions([
+    "init",
     "connect",
     "disconnect",
     "connected",
@@ -11,6 +12,10 @@ var Actions = Reflux.createActions([
 ]);
 
 var wsConnection = null;
+
+Actions.init.listen(function(){
+    Actions.connect();
+});
 
 Actions.connect.listen(function () {
     console.log( __filename + ' connect ' + arguments );
@@ -30,8 +35,10 @@ Actions.connect.listen(function () {
 
 Actions.disconnect.listen(function () {
     console.log( __filename + ' disconnect ' + arguments );
-    wsConnection.disconnect();
-    Actions.disconnected();
+    if((wsConnection !== null) && wsConnection.connected === true) {
+        wsConnection.disconnect();
+        Actions.disconnected();
+    }
 });
 
 Actions.connected.listen(function () {

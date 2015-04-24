@@ -2,9 +2,6 @@ var React = require('react');
 
 //Test compomemt
 var Led = React.createClass({
-    state:{
-        connected:false
-    },
     render: function() {
         return (
             <span style={{

@@ -8,7 +8,9 @@ var Actions = Reflux.createActions([
     "connect",
     "disconnect",
     "connected",
-    "disconnected"
+    "disconnected",
+    "setEnv",
+    "addMessage"
 ]);
 
 var wsConnection = null;
@@ -22,13 +24,20 @@ Actions.connect.listen(function () {
     if(wsConnection !== null) {
         wsConnection.connect();
     } else {
-        wsConnection = io.connect(Config.jsonServer);
+        wsConnection = io.connect(Config.serverUrl);
         wsConnection
             .on('connect',function(){
-                Actions.connected();
+                Actions.connected(wsConnection);
             })
             .on('connect_error',function(){
                 Actions.disconnected();
+            })
+            .on('message',function(data){
+                Actions.addMessage(data);
+            })
+            .on('welcome',function(data){
+                console.log(data);
+                Actions.setEnv(data);
             });
     }
 });
@@ -47,6 +56,14 @@ Actions.connected.listen(function () {
 
 Actions.disconnected.listen(function () {
     console.log( __filename + ' disconnected ' + arguments );
+});
+
+Actions.addMessage.listen(function (data) {
+    console.log( __filename + ' addMessage ' + data );
+})
+
+Actions.setEnv.listen(function (data) {
+    console.log( __filename + ' setName ' + data );
 });
 
 module.exports = Actions;

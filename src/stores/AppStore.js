@@ -7,7 +7,9 @@ var INITIAL_STATE = {
     'isConnected' : false,
     'messages': [],
     'socket': null,
-    'channel':''
+    'channel':'',
+    'reduce':true,
+    'users':[]
 };
 
 // App store
@@ -35,6 +37,8 @@ var AppStore = Reflux.createStore({
         console.log(__filename + ' onDisconnect '+arguments)
         state.isConnected = false;
         state.username = "n/a";
+        state.channel = "n/a";
+        state.users = [];
         this.trigger(state);
     },
 
@@ -48,8 +52,21 @@ var AppStore = Reflux.createStore({
         console.log(__filename + ' addMessage '+arguments)
         state.username = data.username;
         state.channel = data.channel;
+        state.users = data.users;
         this.trigger(state);
     },
+
+    onToggleReduce: function() {
+        console.log(__filename + ' onToggleReduce '+arguments)
+        state.reduce = !state.reduce;
+        this.trigger(state);
+    },
+
+    userDisconnected: function(data) {
+        console.log(__filename + ' userDisconnected '+arguments)
+        state.users = data.newList;
+        this.trigger(state);
+    }
 });
 
 module.exports = AppStore;

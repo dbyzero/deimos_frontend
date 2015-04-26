@@ -14,8 +14,24 @@ var InputBox = React.createClass({
         return (
             <div>
                 <form>
-                    <input type="text" onChange={this.onChangeVal} value={this.state.value} />
-                    <button type="submit" onClick={this.sendMessage}> Send message </button>
+                    <input type="text" onChange={this.onChangeVal} value={this.state.value} style={{
+                        "border": "grey",
+                        "backgroundColor": "white",
+                        "width": "200px",
+                        "padding": "0",
+                        "margin": "0",
+                        "borderRadius": "0",
+                        "height":"20px"
+                    }}/>
+                    <button type="submit" onClick={this.sendMessage}  style={{
+                        "border": "grey",
+                        "backgroundColor": "#dfdfdf",
+                        "width": "110px",
+                        "padding": "0",
+                        "margin": "0",
+                        "borderRadius": "0",
+                        "height":"20px"
+                    }}> Send message </button>
                 </form>
             </div>
         );

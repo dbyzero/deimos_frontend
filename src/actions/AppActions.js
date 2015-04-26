@@ -10,7 +10,9 @@ var Actions = Reflux.createActions([
     "connected",
     "disconnected",
     "setEnv",
-    "addMessage"
+    "addMessage",
+    "userDisconnected",
+    "toggleReduce"
 ]);
 
 var wsConnection = null;
@@ -34,6 +36,9 @@ Actions.connect.listen(function () {
             })
             .on('message',function(data){
                 Actions.addMessage(data);
+            })
+            .on('newUserList',function(data){
+                Actions.userDisconnected(data);
             })
             .on('welcome',function(data){
                 console.log(data);
@@ -60,10 +65,18 @@ Actions.disconnected.listen(function () {
 
 Actions.addMessage.listen(function (data) {
     console.log( __filename + ' addMessage ' + data );
-})
+});
 
 Actions.setEnv.listen(function (data) {
     console.log( __filename + ' setName ' + data );
+});
+
+Actions.userDisconnected.listen(function (data) {
+    console.log( __filename + ' userDisconnected ' );
+});
+
+Actions.toggleReduce.listen(function () {
+    console.log( __filename + ' toggleReduce ' );
 });
 
 module.exports = Actions;

@@ -5,7 +5,6 @@ var browserify = require('browserify');
 var watchify = require('watchify');
 var reactify = require('reactify'); 
 var uglify = require('gulp-uglify'); 
-var colors = require('colors');
 
 gulp.task('browserify', function() {
     var bundler = browserify({

@@ -21,7 +21,7 @@ gulp.task('browserify', function() {
             .bundle() // Create the initial bundle when starting the task
             .pipe(source('main.js'))
             .pipe(buffer())
-            // .pipe(uglify())
+            .pipe(uglify())
             .pipe(gulp.dest('./build/'));
     }
 

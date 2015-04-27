@@ -34,7 +34,11 @@ var MessageList = React.createClass({
 var Message = React.createClass({
     render: function() {
         return (
-            <div><strong>{this.props.data.username}</strong> : {this.props.data.message}</div>
+            <div style={{
+                'margin':'2px 2px 0 2px'
+            }}>
+                <strong>{this.props.data.username}</strong> : {this.props.data.message}
+            </div>
         );
     }
 });

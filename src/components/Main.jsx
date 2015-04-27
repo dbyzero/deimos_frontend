@@ -7,12 +7,17 @@ var Led = require('./Led.jsx');
 var InputBox = require('./InputBox.jsx');
 var MessageList = require('./MessageList.jsx');
 
+//metrics to notify a changement
+var msgCount = 0;
+var userCount = 0;
+
 var Main = React.createClass({
     mixins: [Reflux.connect(AppStore,'appStore')],
 
     render: function() {
         return (
             <div style={{
+                width:'310px',
                 position:'fixed',
                 bottom:'-1000px',
                 right:'0px',
@@ -21,7 +26,7 @@ var Main = React.createClass({
                 border:'1px solid grey',
                 fontFamily:'sans-serif monospace',
                 zIndex:999999,
-                transition:'bottom 500ms'
+                transition:'bottom 250ms, background-color 250ms'
             }}>
                 <div>
                     <div style={{'padding':'0px 0 5px 0','cursor':'pointer'}} onClick={this.clickTogglePanel}>
@@ -29,7 +34,7 @@ var Main = React.createClass({
                         (<strong>{this.state.appStore.channel}</strong>)
                     </div>
                     Username : <strong>{this.state.appStore.username}</strong><br/>
-                    Users({this.state.appStore.users.length}) : <strong>{this.state.appStore.users.join(', ')}</strong><br/>
+                    ({this.state.appStore.users.length}) user{this.state.appStore.users.length > 1 ? 's' : ''} : <strong>{this.state.appStore.users.join(', ')}</strong><br/>
                     <button onClick={this.connect} style={{
                         "border": "grey",
                         "backgroundColor": "#dfdfdf",
@@ -83,9 +88,22 @@ var Main = React.createClass({
         if(this.state.appStore.reduce) {
             var componentHeight = domNode.offsetHeight;
             domNode.style.bottom = (-1 * parseInt(componentHeight) + 36)+'px';
+            if(
+                msgCount < this.state.appStore.messages.length ||
+                userCount < this.state.appStore.users.length
+            ) {
+                domNode.style.backgroundColor = 'rgb(255, 255, 255)';
+                setTimeout(function(){
+                    domNode.style.backgroundColor = '#cccccc';
+                }.bind(this),250);
+            }
         } else {
             domNode.style.bottom = '0px';
         }
+
+        //update counting
+        msgCount = this.state.appStore.messages.length;
+        userCount = this.state.appStore.users.length;
     },
 
     clickTogglePanel: function() {

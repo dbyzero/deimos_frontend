@@ -19,6 +19,5 @@ window.onload = run;
 
 //if we load by nookmarklet
 if(document.readyState === "complete") {
-	console.log('domReady');
 	run();
 }

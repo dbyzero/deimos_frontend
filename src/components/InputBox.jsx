@@ -10,7 +10,7 @@ var InputBox = React.createClass({
 
 	getInitialState: function() {
 		return {
-			value: '',
+			value: ''
 		}
 	},
 

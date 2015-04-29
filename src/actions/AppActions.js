@@ -9,10 +9,10 @@ var Actions = Reflux.createActions([
     "disconnect",
     "connected",
     "disconnected",
-    "setEnv",
-    "addMessage",
-    "userDisconnected",
-    "toggleReduce"
+    "chatHasNewMessage",
+    "chatInit",
+    "chatHasNewUserList",
+    "chatToggle"
 ]);
 
 var wsConnection = null;
@@ -34,15 +34,16 @@ Actions.connect.listen(function () {
             .on('connect_error',function(){
                 Actions.disconnected();
             })
-            .on('message',function(data){
-                Actions.addMessage(data);
+
+            //Chat purpose
+            .on('chat.message',function(data){
+                Actions.chatHasNewMessage(data);
             })
-            .on('newUserList',function(data){
-                Actions.userDisconnected(data);
+            .on('chat.newUserList',function(data){
+                Actions.chatHasNewUserList(data);
             })
-            .on('welcome',function(data){
-                console.log(data);
-                Actions.setEnv(data);
+            .on('chat.welcome',function(data){
+                Actions.chatInit(data);
             });
     }
 });
@@ -63,20 +64,20 @@ Actions.disconnected.listen(function () {
     console.log( __filename + ' disconnected ' + arguments );
 });
 
-Actions.addMessage.listen(function (data) {
-    console.log( __filename + ' addMessage ' + data );
+Actions.chatHasNewMessage.listen(function (data) {
+    console.log( __filename + ' chatHasNewMessage ' + data );
 });
 
-Actions.setEnv.listen(function (data) {
-    console.log( __filename + ' setName ' + data );
+Actions.chatInit.listen(function (data) {
+    console.log( __filename + ' chatInit ' + data );
 });
 
-Actions.userDisconnected.listen(function (data) {
-    console.log( __filename + ' userDisconnected ' );
+Actions.chatHasNewUserList.listen(function (data) {
+    console.log( __filename + ' chatHasNewUserList ' );
 });
 
-Actions.toggleReduce.listen(function () {
-    console.log( __filename + ' toggleReduce ' );
+Actions.chatToggle.listen(function () {
+    console.log( __filename + ' chatToggle ' );
 });
 
 module.exports = Actions;

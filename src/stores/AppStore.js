@@ -42,28 +42,28 @@ var AppStore = Reflux.createStore({
 		this.trigger(state);
 	},
 
-	onAddMessage: function(data) {
-		console.log(__filename + ' addMessage '+arguments)
+	onChatHasNewMessage: function(data) {
+		console.log(__filename + ' onChatHasNewMessage '+arguments)
 		state.messages.push(data);
 		this.trigger(state);
 	},
 
-	onSetEnv: function(data) {
-		console.log(__filename + ' onSetEnv '+arguments)
+	onChatInit: function(data) {
+		console.log(__filename + ' onChatInit '+arguments)
 		state.username = data.username;
 		state.channel = data.channel;
 		state.users = data.users;
 		this.trigger(state);
 	},
 
-	onToggleReduce: function() {
-		console.log(__filename + ' onToggleReduce '+arguments)
+	onChatToggle: function() {
+		console.log(__filename + ' onChatToggle '+arguments)
 		state.reduce = !state.reduce;
 		this.trigger(state);
 	},
 
-	userDisconnected: function(data) {
-		console.log(__filename + ' userDisconnected '+arguments)
+	onChatHasNewUserList: function(data) {
+		console.log(__filename + ' onChatHasNewUserList '+arguments)
 		state.users = data.newList;
 		this.trigger(state);
 	}

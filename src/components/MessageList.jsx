@@ -22,7 +22,8 @@ var MessageList = React.createClass({
 		var rendering = [];
 		var keys = Object.keys(messages);
 		for(var i=0;i<keys.length;i++) {
-			rendering.push(<Message key={messages[keys[i]].id} data={messages[keys[i]]} />);
+			//we dont want to edit existing message, so we can add date to key
+			rendering.push(<Message key={parseInt(messages[keys[i]].id)+(new Date().getTime())} data={messages[keys[i]]} />);
 		}
 		return rendering;
 	},

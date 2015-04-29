@@ -102,7 +102,7 @@ var Main = React.createClass({
 	},
 
 	clickTogglePanel: function() {
-		AppActions.toggleReduce();
+		AppActions.chatToggle();
 	}
 
 });

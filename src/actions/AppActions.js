@@ -4,80 +4,96 @@ var io = require('socket.io-client');
 
 // Test actions
 var Actions = Reflux.createActions([
-    "init",
-    "connect",
-    "disconnect",
-    "connected",
-    "disconnected",
-    "chatHasNewMessage",
-    "chatInit",
-    "chatHasNewUserList",
-    "chatToggle"
+	"init",
+	"connect",
+	"disconnect",
+	"connected",
+	"disconnected",
+	"chatSendMessage",
+	"chatHasNewMessage",
+	"chatInit",
+	"chatHasNewUserList",
+	"chatToggle"
 ]);
 
 var wsConnection = null;
 
 Actions.init.listen(function(){
-    Actions.connect();
+	Actions.connect();
 });
 
 Actions.connect.listen(function () {
-    console.log( __filename + ' connect ' + arguments );
-    if(wsConnection !== null) {
-        wsConnection.connect();
-    } else {
-        wsConnection = io.connect(Config.serverUrl);
-        wsConnection
-            .on('connect',function(){
-                Actions.connected(wsConnection);
-            })
-            .on('connect_error',function(){
-                Actions.disconnected();
-            })
+	console.log( __filename + ' connect ' + arguments );
+	if(wsConnection !== null) {
+		wsConnection.connect();
+	} else {
+		wsConnection = io.connect(Config.serverUrl);
+		wsConnection
+			//General purpose
+			.on('connect',function(){
+				Actions.connected();
+			})
+			.on('connect_error',Actions.disconnected)
 
-            //Chat purpose
-            .on('chat.message',function(data){
-                Actions.chatHasNewMessage(data);
-            })
-            .on('chat.newUserList',function(data){
-                Actions.chatHasNewUserList(data);
-            })
-            .on('chat.welcome',function(data){
-                Actions.chatInit(data);
-            });
-    }
+			//Chat purpose
+			.on('chat.welcome',Actions.chatInit)
+			.on('chat.message',Actions.chatHasNewMessage)
+			.on('chat.newUserList',Actions.chatHasNewUserList)
+
+			//Game purpose
+			.on('game.welcome',function(data){
+			})
+	}
 });
 
+/*****************
+ * Global actions
+ ****************/
+
 Actions.disconnect.listen(function () {
-    console.log( __filename + ' disconnect ' + arguments );
-    if((wsConnection !== null) && wsConnection.connected === true) {
-        wsConnection.disconnect();
-        Actions.disconnected();
-    }
+	console.log( __filename + ' disconnect ' + arguments );
+	if((wsConnection !== null) && wsConnection.connected === true) {
+		wsConnection.disconnect();
+		Actions.disconnected();
+	}
 });
 
 Actions.connected.listen(function () {
-    console.log( __filename + ' connected ' + arguments );
+	console.log( __filename + ' connected ' + arguments );
 });
 
 Actions.disconnected.listen(function () {
-    console.log( __filename + ' disconnected ' + arguments );
+	console.log( __filename + ' disconnected ' + arguments );
+});
+
+/****************
+ * Chat actions
+ ***************/
+
+Actions.chatSendMessage.listen(function ( msg ) {
+	console.log( __filename + ' chatSendMessage ' + msg );
+	wsConnection.emit('chat.message',{data:msg});
+
 });
 
 Actions.chatHasNewMessage.listen(function (data) {
-    console.log( __filename + ' chatHasNewMessage ' + data );
+	console.log( __filename + ' chatHasNewMessage ' + data );
 });
 
 Actions.chatInit.listen(function (data) {
-    console.log( __filename + ' chatInit ' + data );
+	console.log( __filename + ' chatInit ' + data );
 });
 
 Actions.chatHasNewUserList.listen(function (data) {
-    console.log( __filename + ' chatHasNewUserList ' );
+	console.log( __filename + ' chatHasNewUserList ' );
 });
 
 Actions.chatToggle.listen(function () {
-    console.log( __filename + ' chatToggle ' );
+	console.log( __filename + ' chatToggle ' );
 });
+
+/****************
+ * Game actions
+ ***************/
 
 module.exports = Actions;

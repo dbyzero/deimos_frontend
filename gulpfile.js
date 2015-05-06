@@ -21,7 +21,7 @@ gulp.task('browserify', function() {
             .pipe(source('main.js'))
             .pipe(buffer())
             // .pipe(uglify())
-            .pipe(gulp.dest('./build/'));
+            .pipe(gulp.dest('./dist/'));
     }
 
     watcher.on('update', function () { // When any files update

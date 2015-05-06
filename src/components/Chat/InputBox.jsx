@@ -5,7 +5,7 @@ var ReactPropTypes = React.PropTypes;
 var InputBox = React.createClass({
 
 	propTypes: {
-		"onSubmit":ReactPropTypes.function
+		onSubmit:ReactPropTypes.func
 	},
 
 	getInitialState: function() {

@@ -9,6 +9,10 @@ var Actions = Reflux.createActions([
 	"disconnect",
 	"connected",
 	"disconnected",
+	"gameTest1",
+	"gameTest2",
+	"gameTest3",
+	"gameTest4",
 	"chatSendMessage",
 	"chatHasNewMessage",
 	"chatInit",
@@ -95,5 +99,39 @@ Actions.chatToggle.listen(function () {
 /****************
  * Game actions
  ***************/
+
+Actions.gameTest1.listen(function (msg) {
+	console.log( __filename + ' gameTest1 ' + msg );
+	wsConnection.emit('game.test1',{data:msg});
+
+})
+Actions.gameTest2.listen(function (msg) {
+	console.log( __filename + ' gameTest2 ' + msg );
+	wsConnection.emit('game.test2',{data:msg});
+
+})
+Actions.gameTest3.listen(function (msg) {
+	console.log( __filename + ' gameTest3 ' + msg );
+	wsConnection.emit('game.test3',{data:msg});
+
+});
+Actions.gameTest4.listen(function (varargs) {
+	console.log( __filename + ' gameTest4 ' + arguments );
+	var div = document.createElement('div');
+	div.style.width = '675px';
+	div.style.height = '500px';
+	div.style.overflow =' hidden';
+	div.style.border = '2px solid black';
+	div.style.position = 'fixed';
+	div.style.zIndex = '1024';
+	div.style.top = '170px';
+	div.style.left = '10px';
+	div.style.backgroundColor = '#fff';
+	div.attr = '#fff';
+	div.setAttribute('id','gamezone');
+	console.log(div);
+	document.getElementsByTagName('body')[0].appendChild(div);
+
+});
 
 module.exports = Actions;

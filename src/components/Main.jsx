@@ -14,13 +14,19 @@ var Main = React.createClass({
 
 	render: function() {
 		return (
-			<Chat 
-				isConnected={this.state.isConnected}
-				onChatToggle={onChatToggle}
-				onSendMessage={onChatSendMessage.bind(this)}
-				onClickConnect={onClickConnect.bind(this)}
-				onClickDisconnect={onClickDisconnect.bind(this)}
-			/>
+			<div>
+				<button style={{'position':'absolute','bottom':'0px'}} onClick={AppActions.gameTest1}>TEST 1</button>
+				<button style={{'position':'absolute','bottom':'0px','left':'100px'}} onClick={AppActions.gameTest2}>TEST 2</button>
+				<button style={{'position':'absolute','bottom':'0px','left':'200px'}} onClick={AppActions.gameTest3}>TEST 3</button>
+				<button style={{'position':'absolute','bottom':'50px','left':'0px'}} onClick={AppActions.gameTest4}>Make game area</button>
+				<Chat 
+					isConnected={this.state.isConnected}
+					onChatToggle={onChatToggle}
+					onSendMessage={onChatSendMessage.bind(this)}
+					onClickConnect={onClickConnect.bind(this)}
+					onClickDisconnect={onClickDisconnect.bind(this)}
+				/>
+			</div>
 		);
 	}
 });

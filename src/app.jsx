@@ -3,12 +3,12 @@ var AppActions = require('./actions/AppActions');
 var Main = require('./components/Main.jsx');
 
 var run = function(){
-	var doNotDupplicate = '4596fb97f98c4683930281f25a241c32-puck-campfire';
-	var exist = document.getElementById(doNotDupplicate);
+	var doNotDuplicate = '4596fb97f98c4683930281f25a241c32-puck-campfire';
+	var exist = document.getElementById(doNotDuplicate);
 	console.log(exist);
 	if(exist !== null) return;
 	var el = document.createElement('section');
-	el.setAttribute('id',doNotDupplicate);
+	el.setAttribute('id',doNotDuplicate);
 	AppActions.init();
 	React.render(<Main domElement={el}/>,el);
 	document.body.appendChild(el);

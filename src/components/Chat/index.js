@@ -3,7 +3,7 @@ var ReactPropTypes = React.PropTypes;
 var Reflux = require('reflux');
 
 var ChatStore = require('../../stores/ChatStore');
-var Led = require('./Led.jsx');
+var Led = require('../basic/Led.jsx');
 var InputBox = require('./InputBox.jsx');
 var MessageList = require('./MessageList.jsx');
 

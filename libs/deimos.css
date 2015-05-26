@@ -1,0 +1,784 @@
+div.speaker {
+  width: 128px;
+  height: 88px;
+  display: none;
+  z-index: 20;
+  position: absolute;
+  background-image: url("deimos.png");
+  background-position: 0px 0px;
+}
+
+div.speaker textarea {
+  width: 116px;
+  height: 55px;
+  margin-top: 5px;
+  margin-left: 4px;
+  outline: none;
+  resize: none;
+  border: 0;
+}
+
+/*top: 125px;
+left: 372px;
+width: 117px;
+height: 56px;
+border: 2px solid black;
+border-radius: 7px;
+position: absolute;
+padding: 5px;*/
+.avatarAnimationStandingLeft {
+  -webkit-animation: avatar-webcraft-standLeft 0.5s steps(8) infinite;
+  -o-animation: avatar-webcraft-standLeft 0.5s steps(8) infinite;
+  -moz-animation: avatar-webcraft-standLeft 0.5s steps(8) infinite;
+  animation: avatar-webcraft-standLeft 0.5s steps(8) infinite;
+}
+
+.avatarAnimationStandingRight {
+  -webkit-animation: avatar-webcraft-standRight 0.5s steps(8) infinite;
+  -o-animation: avatar-webcraft-standRight 0.5s steps(8) infinite;
+  -moz-animation: avatar-webcraft-standRight 0.5s steps(8) infinite;
+  animation: avatar-webcraft-standRight 0.5s steps(8) infinite;
+}
+
+.avatarAnimationWalkingLeft {
+  -webkit-animation: avatar-webcraft-walkLeft 0.5s steps(8) infinite;
+  -o-animation: avatar-webcraft-walkLeft 0.5s steps(8) infinite;
+  -moz-animation: avatar-webcraft-walkLeft 0.5s steps(8) infinite;
+  animation: avatar-webcraft-walkLeft 0.5s steps(8) infinite;
+}
+
+.avatarAnimationWalkingRight {
+  -webkit-animation: avatar-webcraft-walkRight 0.5s steps(8) infinite;
+  -o-animation: avatar-webcraft-walkRight 0.5s steps(8) infinite;
+  -moz-animation: avatar-webcraft-walkRight 0.5s steps(8) infinite;
+  animation: avatar-webcraft-walkRight 0.5s steps(8) infinite;
+}
+
+.avatarAnimationFlyingLeft {
+  -webkit-animation: avatar-webcraft-flyLeft 0.5s steps(8) infinite;
+  -o-animation: avatar-webcraft-flyLeft 0.5s steps(8) infinite;
+  -moz-animation: avatar-webcraft-flyLeft 0.5s steps(8) infinite;
+  animation: avatar-webcraft-flyLeft 0.5s steps(8) infinite;
+}
+
+.avatarAnimationFlyingRight {
+  -webkit-animation: avatar-webcraft-flyRight 0.5s steps(8) infinite;
+  -o-animation: avatar-webcraft-flyRight 0.5s steps(8) infinite;
+  -moz-animation: avatar-webcraft-flyRight 0.5s steps(8) infinite;
+  animation: avatar-webcraft-flyRight 0.5s steps(8) infinite;
+}
+
+.avatarAnimationShootingLeft {
+  -webkit-animation: avatar-webcraft-shootRight 0.2s steps(8) infinite;
+  -o-animation: avatar-webcraft-shootRight 0.2s steps(8) infinite;
+  -moz-animation: avatar-webcraft-shootRight 0.2s steps(8) infinite;
+  animation: avatar-webcraft-shootRight 0.2s steps(8) infinite;
+}
+
+.avatarAnimationShootingRight {
+  -webkit-animation: avatar-webcraft-shootLeft 0.2s steps(8) infinite;
+  -o-animation: avatar-webcraft-shootLeft 0.2s steps(8) infinite;
+  -moz-animation: avatar-webcraft-shootLeft 0.2s steps(8) infinite;
+  animation: avatar-webcraft-shootLeft 0.2s steps(8) infinite;
+}
+
+.avatarAnimationFront {
+  -webkit-animation: avatar-webcraft-standing 0.5s steps(8) infinite;
+  -o-animation: avatar-webcraft-standing 0.5s steps(8) infinite;
+  -moz-animation: avatar-webcraft-standing 0.5s steps(8) infinite;
+  animation: avatar-webcraft-standing 0.5s steps(8) infinite;
+}
+
+@-webkit-keyframes avatar-webcraft-standRight {
+  0% {
+    background-position: 0 -0px;
+  }
+
+  100% {
+    background-position: -800px -0px;
+  }
+}
+
+@-o-keyframes avatar-webcraft-standRight {
+  0% {
+    background-position: 0 -0px;
+  }
+
+  100% {
+    background-position: -800px -0px;
+  }
+}
+
+@-moz-keyframes avatar-webcraft-standRight {
+  0% {
+    background-position: 0 -0px;
+  }
+
+  100% {
+    background-position: -800px -0px;
+  }
+}
+
+@keyframes avatar-webcraft-standRight {
+  0% {
+    background-position: 0 -0px;
+  }
+
+  100% {
+    background-position: -800px -0px;
+  }
+}
+
+@-webkit-keyframes avatar-webcraft-standLeft {
+  0% {
+    background-position: 0 -100px;
+  }
+
+  100% {
+    background-position: -800px -100px;
+  }
+}
+
+@-o-keyframes avatar-webcraft-standLeft {
+  0% {
+    background-position: 0 -100px;
+  }
+
+  100% {
+    background-position: -800px -100px;
+  }
+}
+
+@-moz-keyframes avatar-webcraft-standLeft {
+  0% {
+    background-position: 0 -100px;
+  }
+
+  100% {
+    background-position: -800px -100px;
+  }
+}
+
+@keyframes avatar-webcraft-standLeft {
+  0% {
+    background-position: 0 -100px;
+  }
+
+  100% {
+    background-position: -800px -100px;
+  }
+}
+
+@-webkit-keyframes avatar-webcraft-walkRight {
+  0% {
+    background-position: 0 -200px;
+  }
+
+  100% {
+    background-position: -800px -200px;
+  }
+}
+
+@-o-keyframes avatar-webcraft-walkRight {
+  0% {
+    background-position: 0 -200px;
+  }
+
+  100% {
+    background-position: -800px -200px;
+  }
+}
+
+@-moz-keyframes avatar-webcraft-walkRight {
+  0% {
+    background-position: 0 -200px;
+  }
+
+  100% {
+    background-position: -800px -200px;
+  }
+}
+
+@keyframes avatar-webcraft-walkRight {
+  0% {
+    background-position: 0 -200px;
+  }
+
+  100% {
+    background-position: -800px -200px;
+  }
+}
+
+@-webkit-keyframes avatar-webcraft-walkLeft {
+  0% {
+    background-position: 0 -300px;
+  }
+
+  100% {
+    background-position: -800px -300px;
+  }
+}
+
+@-o-keyframes avatar-webcraft-walkLeft {
+  0% {
+    background-position: 0 -300px;
+  }
+
+  100% {
+    background-position: -800px -300px;
+  }
+}
+
+@-moz-keyframes avatar-webcraft-walkLeft {
+  0% {
+    background-position: 0 -300px;
+  }
+
+  100% {
+    background-position: -800px -300px;
+  }
+}
+
+@keyframes avatar-webcraft-walkLeft {
+  0% {
+    background-position: 0 -300px;
+  }
+
+  100% {
+    background-position: -800px -300px;
+  }
+}
+
+@-webkit-keyframes avatar-webcraft-flyRight {
+  0% {
+    background-position: 0 -500px;
+  }
+
+  100% {
+    background-position: -800px -500px;
+  }
+}
+
+@-o-keyframes avatar-webcraft-flyRight {
+  0% {
+    background-position: 0 -500px;
+  }
+
+  100% {
+    background-position: -800px -500px;
+  }
+}
+
+@-moz-keyframes avatar-webcraft-flyRight {
+  0% {
+    background-position: 0 -500px;
+  }
+
+  100% {
+    background-position: -800px -500px;
+  }
+}
+
+@keyframes avatar-webcraft-flyRight {
+  0% {
+    background-position: 0 -500px;
+  }
+
+  100% {
+    background-position: -800px -500px;
+  }
+}
+
+@-webkit-keyframes avatar-webcraft-flyLeft {
+  0% {
+    background-position: 0 -400px;
+  }
+
+  100% {
+    background-position: -800px -400px;
+  }
+}
+
+@-o-keyframes avatar-webcraft-flyLeft {
+  0% {
+    background-position: 0 -400px;
+  }
+
+  100% {
+    background-position: -800px -400px;
+  }
+}
+
+@-moz-keyframes avatar-webcraft-flyLeft {
+  0% {
+    background-position: 0 -400px;
+  }
+
+  100% {
+    background-position: -800px -400px;
+  }
+}
+
+@keyframes avatar-webcraft-flyLeft {
+  0% {
+    background-position: 0 -400px;
+  }
+
+  100% {
+    background-position: -800px -400px;
+  }
+}
+
+@-webkit-keyframes avatar-webcraft-shootRight {
+  0% {
+    background-position: 0 -600px;
+  }
+
+  100% {
+    background-position: -800px -600px;
+  }
+}
+
+@-o-keyframes avatar-webcraft-shootRight {
+  0% {
+    background-position: 0 -600px;
+  }
+
+  100% {
+    background-position: -800px -600px;
+  }
+}
+
+@-moz-keyframes avatar-webcraft-shootRight {
+  0% {
+    background-position: 0 -600px;
+  }
+
+  100% {
+    background-position: -800px -600px;
+  }
+}
+
+@keyframes avatar-webcraft-shootRight {
+  0% {
+    background-position: 0 -600px;
+  }
+
+  100% {
+    background-position: -800px -600px;
+  }
+}
+
+@-webkit-keyframes avatar-webcraft-shootLeft {
+  0% {
+    background-position: 0 -700px;
+  }
+
+  100% {
+    background-position: -800px -700px;
+  }
+}
+
+@-o-keyframes avatar-webcraft-shootLeft {
+  0% {
+    background-position: 0 -700px;
+  }
+
+  100% {
+    background-position: -800px -700px;
+  }
+}
+
+@-moz-keyframes avatar-webcraft-shootLeft {
+  0% {
+    background-position: 0 -700px;
+  }
+
+  100% {
+    background-position: -800px -700px;
+  }
+}
+
+@keyframes avatar-webcraft-shootLeft {
+  0% {
+    background-position: 0 -700px;
+  }
+
+  100% {
+    background-position: -800px -700px;
+  }
+}
+
+@-webkit-keyframes avatar-webcraft-standing {
+  0% {
+    background-position: 0 -800px;
+  }
+
+  100% {
+    background-position: -800px -800px;
+  }
+}
+
+@-o-keyframes avatar-webcraft-standing {
+  0% {
+    background-position: 0 -800px;
+  }
+
+  100% {
+    background-position: -800px -800px;
+  }
+}
+
+@-moz-keyframes avatar-webcraft-standing {
+  0% {
+    background-position: 0 -800px;
+  }
+
+  100% {
+    background-position: -800px -800px;
+  }
+}
+
+@keyframes avatar-webcraft-standing {
+  0% {
+    background-position: 0 -800px;
+  }
+
+  100% {
+    background-position: -800px -800px;
+  }
+}
+.half-walking-left {
+  -webkit-animation: half-walking-left 0.4s steps(4) infinite;
+  -o-animation: half-walking-left 0.4s steps(4) infinite;
+  -moz-animation: half-walking-left 0.4s steps(4) infinite;
+  animation: half-walking-left 0.4s steps(4) infinite;
+  background: url("../asset/spritesheet/skin_half.png") 0 0 no-repeat;
+  height: 49px;
+  width: 30px;
+}
+
+.half-walking-right {
+  -webkit-animation: half-walking-right 0.4s steps(4) infinite;
+  -o-animation: half-walking-right 0.4s steps(4) infinite;
+  -moz-animation: half-walking-right 0.4s steps(4) infinite;
+  animation: half-walking-right 0.4s steps(4) infinite;
+  background: url("../asset/spritesheet/skin_half.png") 0 0 no-repeat;
+  height: 49px;
+  width: 30px;
+}
+
+.half-standing-left {
+  -webkit-animation: half-standing-left 0.4s steps(4) infinite;
+  -o-animation: half-standing-left 0.4s steps(4) infinite;
+  -moz-animation: half-standing-left 0.4s steps(4) infinite;
+  animation: half-standing-left 0.4s steps(4) infinite;
+  background: url("../asset/spritesheet/skin_half.png") 0 0 no-repeat;
+  height: 49px;
+  width: 30px;
+}
+
+.half-standing-right {
+  -webkit-animation: half-standing-right 0.4s steps(4) infinite;
+  -o-animation: half-standing-right 0.4s steps(4) infinite;
+  -moz-animation: half-standing-right 0.4s steps(4) infinite;
+  animation: half-standing-right 0.4s steps(4) infinite;
+  background: url("../asset/spritesheet/skin_half.png") 0 0 no-repeat;
+  height: 49px;
+  width: 30px;
+}
+
+.half-flying-left {
+  -webkit-animation: half-flying-left 0.2s steps(2) infinite;
+  -o-animation: half-flying-left 0.2s steps(2) infinite;
+  -moz-animation: half-flying-left 0.2s steps(2) infinite;
+  animation: half-flying-left 0.2s steps(2) infinite;
+  background: url("../asset/spritesheet/skin_half.png") 0 0 no-repeat;
+  height: 49px;
+  width: 30px;
+}
+
+.half-flying-right {
+  -webkit-animation: half-flying-right 0.2s steps(2) infinite;
+  -o-animation: half-flying-right 0.2s steps(2) infinite;
+  -moz-animation: half-flying-right 0.2s steps(2) infinite;
+  animation: half-flying-right 0.2s steps(2) infinite;
+  background: url("../asset/spritesheet/skin_half.png") 0 0 no-repeat;
+  height: 49px;
+  width: 30px;
+}
+
+@-webkit-keyframes half-walking-right {
+  0% {
+    background-position: 0 0px;
+  }
+
+  100% {
+    background-position: -120px 0px;
+  }
+}
+
+@-o-keyframes half-walking-right {
+  0% {
+    background-position: 0 0px;
+  }
+
+  100% {
+    background-position: -120px 0px;
+  }
+}
+
+@-moz-keyframes half-walking-right {
+  0% {
+    background-position: 0 0px;
+  }
+
+  100% {
+    background-position: -120px 0px;
+  }
+}
+
+@keyframes half-walking-right {
+  0% {
+    background-position: 0 0px;
+  }
+
+  100% {
+    background-position: -120px 0px;
+  }
+}
+
+@-webkit-keyframes half-walking-left {
+  0% {
+    background-position: 0 -49px;
+  }
+
+  100% {
+    background-position: -120px -49px;
+  }
+}
+
+@-o-keyframes half-walking-left {
+  0% {
+    background-position: 0 -49px;
+  }
+
+  100% {
+    background-position: -120px -49px;
+  }
+}
+
+@-moz-keyframes half-walking-left {
+  0% {
+    background-position: 0 -49px;
+  }
+
+  100% {
+    background-position: -120px -49px;
+  }
+}
+
+@keyframes half-walking-left {
+  0% {
+    background-position: 0 -49px;
+  }
+
+  100% {
+    background-position: -120px -49px;
+  }
+}
+
+@-webkit-keyframes half-standing-right {
+  0% {
+    background-position: 0 -98px;
+  }
+
+  100% {
+    background-position: -120px -98px;
+  }
+}
+
+@-o-keyframes half-standing-right {
+  0% {
+    background-position: 0 -98px;
+  }
+
+  100% {
+    background-position: -120px -98px;
+  }
+}
+
+@-moz-keyframes half-standing-right {
+  0% {
+    background-position: 0 -98px;
+  }
+
+  100% {
+    background-position: -120px -98px;
+  }
+}
+
+@keyframes half-standing-right {
+  0% {
+    background-position: 0 -98px;
+  }
+
+  100% {
+    background-position: -120px -98px;
+  }
+}
+
+@-webkit-keyframes half-standing-left {
+  0% {
+    background-position: 0 -147px;
+  }
+
+  100% {
+    background-position: -120px -147px;
+  }
+}
+
+@-o-keyframes half-standing-left {
+  0% {
+    background-position: 0 -147px;
+  }
+
+  100% {
+    background-position: -120px -147px;
+  }
+}
+
+@-moz-keyframes half-standing-left {
+  0% {
+    background-position: 0 -147px;
+  }
+
+  100% {
+    background-position: -120px -147px;
+  }
+}
+
+@keyframes half-standing-left {
+  0% {
+    background-position: 0 -147px;
+  }
+
+  100% {
+    background-position: -120px -147px;
+  }
+}
+
+@-webkit-keyframes half-flying-right {
+  0% {
+    background-position: 0 -196px;
+  }
+
+  100% {
+    background-position: -60px -196px;
+  }
+}
+
+@-o-keyframes half-flying-right {
+  0% {
+    background-position: 0 -196px;
+  }
+
+  100% {
+    background-position: -60px -196px;
+  }
+}
+
+@-moz-keyframes half-flying-right {
+  0% {
+    background-position: 0 -196px;
+  }
+
+  100% {
+    background-position: -60px -196px;
+  }
+}
+
+@keyframes half-flying-right {
+  0% {
+    background-position: 0 -196px;
+  }
+
+  100% {
+    background-position: -60px -196px;
+  }
+}
+
+@-webkit-keyframes half-flying-left {
+  0% {
+    background-position: -60px -196px;
+  }
+
+  100% {
+    background-position: -120px -196px;
+  }
+}
+
+@-o-keyframes half-flying-left {
+  0% {
+    background-position: -60px -196px;
+  }
+
+  100% {
+    background-position: -120px -196px;
+  }
+}
+
+@-moz-keyframes half-flying-left {
+  0% {
+    background-position: -60px -196px;
+  }
+
+  100% {
+    background-position: -120px -196px;
+  }
+}
+
+@keyframes half-flying-left {
+  0% {
+    background-position: -60px -196px;
+  }
+
+  100% {
+    background-position: -120px -196px;
+  }
+}
+.slimeAnimationWalkingLeft {
+  -webkit-animation: walk-cycle 0.7s steps(8) infinite;
+  transform: translateZ(0);
+  /* offers a bit of a performance boost by pushing some of this processing to the GPU in Safari*/
+  background-position-y: 0px;
+}
+
+.slimeAnimationWalkingRight,
+.slimeAnimationFlyingRight,
+.slimeAnimationStandingRight,
+.slimeAnimationShootingRight {
+  -webkit-animation: walk-cycle 0.7s steps(8) infinite;
+  transform: translateZ(0);
+  /* offers a bit of a performance boost by pushing some of this processing to the GPU in Safari*/
+  background-position-y: -50px;
+}
+
+@-webkit-keyframes walk-cycle {
+  0% {
+    background-position-x: 0;
+  }
+
+  100% {
+    background-position-x: -400px;
+  }
+}
+.weapon-test_gun-right {
+  background-image: url("../asset/spritesheet/gun.png");
+  background-position: 0px 0px;
+}
+
+.weapon-test_gun-left {
+  background-image: url("../asset/spritesheet/gun.png");
+  background-position: -31px 0px;
+}

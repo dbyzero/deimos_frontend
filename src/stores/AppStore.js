@@ -20,6 +20,12 @@ var AppStore = Reflux.createStore({
 		state = INITIAL_STATE;
 	},
 
+	onGameManagerToggle: function() {
+		console.log(__filename + ' onChatToggle '+arguments)
+		state.reduce = !state.reduce;
+		this.trigger(state);
+	},
+
 	onConnected: function() {
 		console.log(__filename + ' onConnect '+arguments)
 		state.isConnected = true;

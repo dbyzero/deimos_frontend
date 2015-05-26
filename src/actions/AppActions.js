@@ -13,6 +13,10 @@ var Actions = Reflux.createActions([
 	"gameTest2",
 	"gameTest3",
 	"gameTest4",
+	"gameManagerToggle",
+	"gameJoinServer",
+	"gameDestroyServer",
+	"fillServerList",
 	"chatSendMessage",
 	"chatHasNewMessage",
 	"chatInit",
@@ -45,8 +49,7 @@ Actions.connect.listen(function () {
 			.on('chat.newUserList',Actions.chatHasNewUserList)
 
 			//Game purpose
-			.on('game.welcome',function(data){
-			})
+			.on('game.serverList',Actions.fillServerList)
 	}
 });
 
@@ -67,6 +70,10 @@ Actions.connected.listen(function () {
 });
 
 Actions.disconnected.listen(function () {
+	console.log( __filename + ' disconnected ' + arguments );
+});
+
+Actions.fillServerList.listen(function (list) {
 	console.log( __filename + ' disconnected ' + arguments );
 });
 
@@ -100,21 +107,12 @@ Actions.chatToggle.listen(function () {
  * Game actions
  ***************/
 
-Actions.gameTest1.listen(function (msg) {
-	console.log( __filename + ' gameTest1 ' + msg );
-	wsConnection.emit('game.test1',{data:msg});
-
-})
 Actions.gameTest2.listen(function (msg) {
 	console.log( __filename + ' gameTest2 ' + msg );
 	wsConnection.emit('game.test2',{data:msg});
 
 })
-Actions.gameTest3.listen(function (msg) {
-	console.log( __filename + ' gameTest3 ' + msg );
-	wsConnection.emit('game.test3',{data:msg});
 
-});
 Actions.gameTest4.listen(function (varargs) {
 	console.log( __filename + ' gameTest4 ' + arguments );
 	var div = document.createElement('div');
@@ -129,9 +127,21 @@ Actions.gameTest4.listen(function (varargs) {
 	div.style.backgroundColor = '#fff';
 	div.attr = '#fff';
 	div.setAttribute('id','gamezone');
-	console.log(div);
 	document.getElementsByTagName('body')[0].appendChild(div);
 
+});
+
+Actions.gameDestroyServer.listen(function (serverName) {
+	console.log( __filename + ' gameDestroyServer ' + arguments );
+	wsConnection.emit('game.destroyServer',{data:{'serverName':serverName}});
+});
+
+Actions.gameJoinServer.listen(function () {
+	console.log( __filename + ' gameJoinServer ' + arguments );
+});
+
+Actions.gameManagerToggle.listen(function () {
+	console.log( __filename + ' chatToggle ' );
 });
 
 module.exports = Actions;

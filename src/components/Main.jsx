@@ -16,8 +16,7 @@ var Main = React.createClass({
 	render: function() {
 		return (
 			<div>
-				<button style={{'position':'absolute','bottom':'0px','left':'100px'}} onClick={AppActions.gameTest2}>TEST 2</button>
-				<button style={{'position':'absolute','bottom':'50px','left':'0px'}} onClick={AppActions.gameTest4}>Make game area</button>
+				<button style={{'position':'absolute','bottom':'0px','left':'100px'}} onClick={AppActions.gameCreateServer}>Create server</button>
 				<Chat 
 					isConnected={this.state.isConnected}
 					onChatToggle={AppActions.chatToggle}

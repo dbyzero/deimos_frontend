@@ -34,7 +34,7 @@ var GameManager = React.createClass({
 				</div>
 				<div ref="statusBar">
 					<div style={{'padding':'10px 0 5px 0','cursor':'pointer'}} onClick={this.props.onGameManagerToggle}>
-						<Led connected={this.props.isConnected}/>{this.props.isConnected ?' Connected ':' Disconnected '}
+						<Led isOk={this.props.isConnected}/>{this.props.isConnected ?' Connected ':' Disconnected '}
 					</div>
 				</div>
 			</div>
@@ -51,14 +51,60 @@ var GameManager = React.createClass({
 	},
 
 	renderServer: function(server) {
-		return (<li key={server.id}>{server.name}
-					<a data-serverId={server.name} href="#" onClick={function(){AppActions.gameJoinServer(server.name);}}>(join)</a>
-					<a data-serverId={server.name} href="#" onClick={function(){AppActions.gameDestroyServer(server.name);}}>(destroy)</a>
+		return (<li key={server.id} style={{'listStyle':'none'}}>
+					{/*We check port binding to know if server is up or down*/}
+					<Led isOk={server.port !== null}/> {server.name}
+					{this.renderJoinServer(server)}
+					{this.renderDestroyServer(server)}
+					{this.renderStartServer(server)}
+					{this.renderStopServer(server)}
+					{this.renderLeaveServer(server)}
 				</li>);
 	},
 
 	onClick: function() {
 		console.log('click');
+	},
+
+	renderJoinServer: function(server) {
+		//hide this option if already in a game
+		if(this.state.onGame !== null) return undefined;
+		return (<a data-serverName={server.name} href="" data-serverPort={server.port} onClick={function(e){
+			AppActions.gameJoinServer(server.port);
+			e.preventDefault();
+		}}>(join)</a>);
+	},
+
+	renderDestroyServer: function(server) {
+		return (<a data-serverName={server.name} href="" data-serverPort={server.port} onClick={function(e){
+			AppActions.gameStopServer(server.name);
+			AppActions.gameDestroyServer(server.name);
+			e.preventDefault();
+		}}>(destroy)</a>);
+	},
+
+	renderStartServer: function(server) {
+		if(server.isStarted === true) return undefined;
+		return (<a data-serverName={server.name} href="" data-serverPort={server.port} onClick={function(e){
+			AppActions.gameStartServer(server.name);
+			e.preventDefault();
+		}}>(start)</a>);
+	},
+
+	renderStopServer: function(server) {
+		if(server.isStarted === false) return undefined;
+		return (<a data-serverName={server.name} href="" data-serverPort={server.port} onClick={function(e){
+			AppActions.gameStopServer(server.name);
+			e.preventDefault();
+		}}>(stop)</a>);
+	},
+
+	renderLeaveServer: function(server) {
+		if(server.port === null || this.state.onGame !== server.port) return undefined;
+		return (<a data-serverName={server.name} href="" data-serverPort={server.port} onClick={function(e){
+			AppActions.gameLeaveServer();
+			e.preventDefault();
+		}}>(leave)</a>);
 	},
 
 	componentDidUpdate: function() {

@@ -44,7 +44,7 @@ var Chat = React.createClass({
 			}}>
 				<div>
 					<div style={{'padding':'10px 0 5px 0','cursor':'pointer'}} onClick={this.props.onChatToggle}>
-						<Led connected={this.props.isConnected}/>{this.props.isConnected ?' Connected ':' Disconnected '}
+						<Led isOk={this.props.isConnected}/>{this.props.isConnected ?' Connected ':' Disconnected '}
 						(<strong>{this.state.channel}</strong>)
 					</div>
 					Username : <strong>{this.state.username}</strong><br/>

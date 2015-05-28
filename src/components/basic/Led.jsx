@@ -4,7 +4,7 @@ var ReactPropTypes = React.PropTypes;
 //Test compomemt
 var Led = React.createClass({
 	propTypes : {
-		connected:ReactPropTypes.bool
+		isOk:ReactPropTypes.bool
 	},
 	render: function() {
 		return (
@@ -13,7 +13,7 @@ var Led = React.createClass({
 				borderRadius:'5px',
 				width:'10px',
 				height:'10px',
-				backgroundColor:(this.props.connected ? 'green' : 'red')
+				backgroundColor:(this.props.isOk ? 'green' : 'red')
 			}}></span>
 		);
 	}

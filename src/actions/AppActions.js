@@ -9,13 +9,13 @@ var Actions = Reflux.createActions([
 	"disconnect",
 	"connected",
 	"disconnected",
-	"gameTest1",
-	"gameTest2",
-	"gameTest3",
-	"gameTest4",
+	"gameCreateServer",
 	"gameManagerToggle",
 	"gameJoinServer",
+	"gameStartServer",
+	"gameStopServer",
 	"gameDestroyServer",
+	"gameLeaveServer",
 	"fillServerList",
 	"chatSendMessage",
 	"chatHasNewMessage",
@@ -25,6 +25,7 @@ var Actions = Reflux.createActions([
 ]);
 
 var wsConnection = null;
+var GAME_CONTAINER_DOM_ID = 'gamezone';
 
 Actions.init.listen(function(){
 	Actions.connect();
@@ -107,14 +108,21 @@ Actions.chatToggle.listen(function () {
  * Game actions
  ***************/
 
-Actions.gameTest2.listen(function (msg) {
+Actions.gameCreateServer.listen(function (msg) {
 	console.log( __filename + ' gameTest2 ' + msg );
 	wsConnection.emit('game.test2',{data:msg});
 
 })
 
-Actions.gameTest4.listen(function (varargs) {
-	console.log( __filename + ' gameTest4 ' + arguments );
+Actions.gameDestroyServer.listen(function (serverName) {
+	console.log( __filename + ' gameDestroyServer ' + arguments );
+	wsConnection.emit('game.destroyServer',{data:{'serverName':serverName}});
+});
+
+Actions.gameJoinServer.listen(function (port) {
+	console.log( __filename + ' gameJoinServer ' + arguments );
+
+	//create arena
 	var div = document.createElement('div');
 	div.style.width = '675px';
 	div.style.height = '500px';
@@ -126,18 +134,34 @@ Actions.gameTest4.listen(function (varargs) {
 	div.style.left = '10px';
 	div.style.backgroundColor = '#fff';
 	div.attr = '#fff';
-	div.setAttribute('id','gamezone');
+	div.setAttribute('id',GAME_CONTAINER_DOM_ID);
 	document.getElementsByTagName('body')[0].appendChild(div);
 
+	//join game
+	var config = {
+		serverUrl : "localhost",
+		serverPort : port,
+		serverAssetURL : "http://localhost:8080"
+	};
+
+	org.dbyzero.deimos.Engine.start(config);
 });
 
-Actions.gameDestroyServer.listen(function (serverName) {
-	console.log( __filename + ' gameDestroyServer ' + arguments );
-	wsConnection.emit('game.destroyServer',{data:{'serverName':serverName}});
+Actions.gameStartServer.listen(function (serverName) {
+	console.log( __filename + ' gameStartServer ' + serverName );
+	wsConnection.emit('game.startServer',{data:{'serverName':serverName}});
 });
 
-Actions.gameJoinServer.listen(function () {
-	console.log( __filename + ' gameJoinServer ' + arguments );
+Actions.gameLeaveServer.listen(function () {
+	console.log( __filename + ' gameLeaveServer ');
+	org.dbyzero.deimos.Engine.stop();
+	var gamezone = document.getElementById(GAME_CONTAINER_DOM_ID);
+	if(gamezone) gamezone.parentNode.removeChild(gamezone);
+});
+
+Actions.gameStopServer.listen(function (serverName) {
+	console.log( __filename + ' gameStopServer ' + serverName );
+	wsConnection.emit('game.stopServer',{data:{'serverName':serverName}});
 });
 
 Actions.gameManagerToggle.listen(function () {

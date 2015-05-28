@@ -4,7 +4,8 @@ var AppActions = require('../actions/AppActions.js');
 
 var INITIAL_STATE = {
 	'serverList':{},
-	'reduce':true
+	'reduce':true,
+	'onGame':null
 };
 
 // App store
@@ -37,6 +38,18 @@ var GameManagerStore = Reflux.createStore({
 		state.serverList = list;
 		this.trigger(state);
 	},
+
+	onGameJoinServer: function(port) {
+		console.log(__filename + ' onGameJoinServer '+port)
+		state.onGame = port;
+		this.trigger(state);
+	},
+
+	onGameLeaveServer: function(port) {
+		console.log(__filename + ' onGameLeaveServer '+port)
+		state.onGame = null;
+		this.trigger(state);
+	}
 });
 
 module.exports = GameManagerStore;

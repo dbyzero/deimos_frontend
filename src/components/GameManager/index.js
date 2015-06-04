@@ -8,10 +8,11 @@ var Led = require('../basic/Led.jsx');
 
 var GameManager = React.createClass({
 	mixins: [
-		Reflux.connect(GameManagerStore)
+		Reflux.connect(GameManagerStore),
 	],
 
 	propTypes: {
+		isAuth:ReactPropTypes.bool
 	},
 
 	render: function() {
@@ -28,13 +29,13 @@ var GameManager = React.createClass({
 				zIndex:999999,
 				transition:'top 250ms, background-color 250ms'
 			}}>
-				<div style={{"display":this.props.isConnected ? "block" : "none"}}>
+				<div style={{"display":this.props.isAuth ? "block" : "none"}}>
 					<div style={{'fontWeight':'bold','fontSize':'20px','padding':'4px 0px'}}>Game List</div>
 					{this.renderServerList(this.state.serverList)}
 				</div>
 				<div ref="statusBar">
 					<div style={{'padding':'10px 0 5px 0','cursor':'pointer'}} onClick={this.props.onGameManagerToggle}>
-						<Led isOk={this.props.isConnected}/>{this.props.isConnected ?' Connected ':' Disconnected '}
+						<Led isOk={this.props.isAuth}/>{this.props.isAuth ?' Authenificated ':' Unauthentificated '}
 					</div>
 				</div>
 			</div>
@@ -69,6 +70,8 @@ var GameManager = React.createClass({
 	renderJoinServer: function(server) {
 		//hide this option if already in a game
 		if(this.state.onGame !== null) return undefined;
+		//hide this option if server stopped
+		if(server.port === null) return undefined;
 		return (<a data-serverName={server.name} href="" data-serverPort={server.port} onClick={function(e){
 			AppActions.gameJoinServer(server.port);
 			e.preventDefault();

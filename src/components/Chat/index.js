@@ -19,7 +19,7 @@ var Chat = React.createClass({
 
 	propTypes: {
 		//scalaires
-		isConnected:ReactPropTypes.bool.isRequired,
+		isAuth:ReactPropTypes.bool.isRequired,
 
 		//callback
 		onClickConnect:ReactPropTypes.func.isRequired,
@@ -44,7 +44,7 @@ var Chat = React.createClass({
 			}}>
 				<div>
 					<div style={{'padding':'10px 0 5px 0','cursor':'pointer'}} onClick={this.props.onChatToggle}>
-						<Led isOk={this.props.isConnected}/>{this.props.isConnected ?' Connected ':' Disconnected '}
+						<Led isOk={this.props.isAuth}/>{this.props.isAuth ?' Authenticate ':' Unauthenticated '}
 						(<strong>{this.state.channel}</strong>)
 					</div>
 					Username : <strong>{this.state.username}</strong><br/>
@@ -57,7 +57,7 @@ var Chat = React.createClass({
 						"margin": "7px 0 0 0",
 						"borderRadius": "0",
 						"height":"20px",
-						"display":this.props.isConnected ? "none" : "inline-block"
+						"display":this.props.isAuth ? "none" : "inline-block"
 					}}> connect </button>
 					<button onClick={this.onClickDisconnect} style={{
 						"border": "grey",
@@ -67,10 +67,10 @@ var Chat = React.createClass({
 						"margin": "7px 0 0 0",
 						"borderRadius": "0",
 						"height":"20px",
-						"display":this.props.isConnected ? "inline-block" : "none"
+						"display":this.props.isAuth ? "inline-block" : "none"
 					}}> disconnect </button>
 				</div>
-				<div style={{"display":this.props.isConnected ? "block" : "none"}}>
+				<div style={{"display":this.props.isAuth ? "block" : "none"}}>
 					<MessageList messages={this.state.messages}/>
 					<InputBox onSubmit={this.sendMessage}/>
 				</div>

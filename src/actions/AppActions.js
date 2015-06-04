@@ -9,6 +9,11 @@ var Actions = Reflux.createActions([
 	"disconnect",
 	"connected",
 	"disconnected",
+	"loggued",
+	"login",
+	"loggout",
+	"loginFormToggle",
+	"serverError",
 	"gameCreateServer",
 	"gameManagerToggle",
 	"gameJoinServer",
@@ -16,7 +21,7 @@ var Actions = Reflux.createActions([
 	"gameStopServer",
 	"gameDestroyServer",
 	"gameLeaveServer",
-	"fillServerList",
+	"gameFillServerList",
 	"chatSendMessage",
 	"chatHasNewMessage",
 	"chatInit",
@@ -25,6 +30,7 @@ var Actions = Reflux.createActions([
 ]);
 
 var wsConnection = null;
+var sessionid = null;
 var GAME_CONTAINER_DOM_ID = 'gamezone';
 
 Actions.init.listen(function(){
@@ -43,6 +49,12 @@ Actions.connect.listen(function () {
 				Actions.connected();
 			})
 			.on('connect_error',Actions.disconnected)
+			.on('loggued',function(data){
+				Actions.loggued(data);
+			})
+			.on('serverError',function(data){
+				Actions.serverError(data);
+			})
 
 			//Chat purpose
 			.on('chat.welcome',Actions.chatInit)
@@ -50,7 +62,7 @@ Actions.connect.listen(function () {
 			.on('chat.newUserList',Actions.chatHasNewUserList)
 
 			//Game purpose
-			.on('game.serverList',Actions.fillServerList)
+			.on('game.serverList',Actions.gameFillServerList)
 	}
 });
 
@@ -74,8 +86,28 @@ Actions.disconnected.listen(function () {
 	console.log( __filename + ' disconnected ' + arguments );
 });
 
-Actions.fillServerList.listen(function (list) {
-	console.log( __filename + ' disconnected ' + arguments );
+Actions.login.listen(function (login,password) {
+	wsConnection.emit('login',{data:{'login':login,'password':password}});
+	console.log( __filename + ' login ' );
+});
+
+Actions.loggout.listen(function () {
+	wsConnection.emit('loggout',sessionid);
+	console.log( __filename + ' loggout ' );
+});
+
+Actions.loginFormToggle.listen(function () {
+	console.log( __filename + ' loginFormToggle ' );
+});
+
+Actions.loggued.listen(function (data) {
+	sessionid = data.sessionid;
+	console.log( __filename + ' loggued ' );
+});
+
+Actions.serverError.listen(function (data) {
+	console.log( __filename + ' serverError ' );
+	alert(data.message);
 });
 
 /****************
@@ -111,8 +143,11 @@ Actions.chatToggle.listen(function () {
 Actions.gameCreateServer.listen(function (msg) {
 	console.log( __filename + ' gameTest2 ' + msg );
 	wsConnection.emit('game.test2',{data:msg});
+});
 
-})
+Actions.gameFillServerList.listen(function (list) {
+	console.log( __filename + ' disconnected ' + arguments );
+});
 
 Actions.gameDestroyServer.listen(function (serverName) {
 	console.log( __filename + ' gameDestroyServer ' + arguments );

@@ -4,7 +4,7 @@ var AppActions = require('../actions/AppActions.js');
 
 var INITIAL_STATE = {
 	'serverList':{},
-	'reduce':true,
+	'reduce':false,
 	'onGame':null
 };
 
@@ -33,8 +33,8 @@ var GameManagerStore = Reflux.createStore({
 		this.trigger(state);
 	},
 
-	onFillServerList: function(list) {
-		console.log(__filename + ' onFillServerList '+list)
+	onGameFillServerList: function(list) {
+		console.log(__filename + ' onGameFillServerList '+list)
 		state.serverList = list;
 		this.trigger(state);
 	},

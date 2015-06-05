@@ -1,3 +1,5 @@
 {
-	"serverUrl" : "http://localhost:1080"
+	"serverUrl" : "http://localhost:1080",
+	"gameServerDomain" : "localhost",
+	"assetUrl" : "http://localhost:8080"
 }

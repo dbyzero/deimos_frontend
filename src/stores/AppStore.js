@@ -31,7 +31,7 @@ var AppStore = Reflux.createStore({
 
 	onDisconnected: function() {
 		console.log(__filename + ' onDisconnect '+arguments)
-		state = INITIAL_STATE;
+		state.isConnected = false;
 		this.trigger(state);
 	},
 

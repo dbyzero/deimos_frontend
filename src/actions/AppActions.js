@@ -31,6 +31,7 @@ var Actions = Reflux.createActions([
 
 var wsConnection = null;
 var sessionid = null;
+var username = null;
 var GAME_CONTAINER_DOM_ID = 'gamezone';
 
 Actions.init.listen(function(){
@@ -102,6 +103,7 @@ Actions.loginFormToggle.listen(function () {
 
 Actions.loggued.listen(function (data) {
 	sessionid = data.sessionid;
+	username = data.login;
 	console.log( __filename + ' loggued ' );
 });
 
@@ -174,9 +176,10 @@ Actions.gameJoinServer.listen(function (port) {
 
 	//join game
 	var config = {
-		serverUrl : "localhost",
+		serverUrl : Config.gameServerDomain,
 		serverPort : port,
-		serverAssetURL : "http://localhost:8080"
+		serverAssetURL : Config.assetURL,
+		sessionID : sessionid
 	};
 
 	org.dbyzero.deimos.Engine.start(config);

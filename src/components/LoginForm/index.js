@@ -25,16 +25,27 @@ var LoginForm = React.createClass({
 				zIndex:999999,
 				transition:'top 250ms, background-color 250ms'
 			}}>
-				<div style={{"display":this.state.isConnected ? "block" : "none"}}>
+				<div>
 					<div style={{'fontWeight':'bold','fontSize':'20px','padding':'4px 0px'}}>Login Form</div>
 					<input ref="login" type="text" placeholder="Account"  defaultValue="lolo"/>
 					<input ref="password" type="password" placeholder="Password" defaultValue="f71dbe52628a3f83a77ab494817525c6"/><br/>
-					<button type="button" onClick={this.onSubmit} style={{
+
+					<button type="button" onClick={this.onClickLogin} style={{
 						"display":this.props.isAuth ? "none" : "inline-block"
 					}}> Login </button>
-					<button type="button" onClick={this.onClickDisconnect} style={{
+
+					<button type="button" onClick={this.onClickLoggout} style={{
 						"display":this.props.isAuth ? "inline-block" : "none"
+					}}> Logout </button>
+
+					<button type="button" onClick={this.onClickConnect} style={{
+						"display":this.props.isConnected ? "none" : "inline-block"
+					}}> Connect </button>
+
+					<button type="button" onClick={this.onClickDisconnect} style={{
+						"display":(this.props.isConnected && !this.props.isAuth) ? "inline-block" : "none"
 					}}> Disconnect </button>
+
 				</div>
 				<div ref="statusBar">
 					<div style={{'padding':'10px 0 5px 0','cursor':'pointer'}} onClick={this.props.onGameManagerToggle}>
@@ -46,7 +57,7 @@ var LoginForm = React.createClass({
 		);
 	},
 
-	onSubmit: function(e) {
+	onClickLogin: function(e) {
 		var login = this.refs['login'].getDOMNode().value;
 		var password = this.refs['password'].getDOMNode().value;
 		if(login && password) {
@@ -54,8 +65,18 @@ var LoginForm = React.createClass({
 		}
 	},
 
-	onClickDisconnect: function(e) {
+	onClickLoggout: function(e) {
 		AppActions.loggout();
+	},
+
+	onClickConnect: function() {
+		console.log(__filename + ' onClickConnect');
+		this.props.onClickConnect();
+	},
+
+	onClickDisconnect: function() {
+		console.log(__filename + ' onClickDisconnect');
+		this.props.onClickDisconnect();
 	},
 
 	componentDidUpdate: function() {

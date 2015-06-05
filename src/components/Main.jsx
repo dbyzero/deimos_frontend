@@ -21,13 +21,13 @@ var Main = React.createClass({
 				<LoginForm
 					isAuth={this.state.isAuth}
 					isConnected={this.state.isConnected}
+					onClickConnect={onClickConnect.bind(this)}
+					onClickDisconnect={onClickDisconnect.bind(this)}
 				/>
 				<Chat 
 					isAuth={this.state.isAuth}
 					onChatToggle={AppActions.chatToggle}
 					onSendMessage={onChatSendMessage.bind(this)}
-					onClickConnect={onClickConnect.bind(this)}
-					onClickDisconnect={onClickDisconnect.bind(this)}
 				/>
 				<GameManager
 					onGameManagerToggle={AppActions.gameManagerToggle}

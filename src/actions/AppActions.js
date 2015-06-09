@@ -43,7 +43,7 @@ Actions.connect.listen(function () {
 	if(wsConnection !== null) {
 		wsConnection.connect();
 	} else {
-		wsConnection = io.connect(Config.serverUrl);
+		wsConnection = io.connect(Config.serverURL);
 		wsConnection
 			//General purpose
 			.on('connect',function(){
@@ -176,10 +176,10 @@ Actions.gameJoinServer.listen(function (port) {
 
 	//join game
 	var config = {
-		serverUrl : Config.gameServerDomain,
+		serverURL : Config.gameServerDomain,
 		serverPort : port,
 		serverAssetURL : Config.assetURL,
-		sessionID : sessionid
+		sessionId : sessionid
 	};
 
 	org.dbyzero.deimos.Engine.start(config);

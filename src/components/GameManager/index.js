@@ -44,6 +44,18 @@ var GameManager = React.createClass({
 
 	renderServerList: function(serverList) {
 		var list = [];
+
+		//dev purpose
+		if(true) {
+			serverList['localhost_server'] = {
+				id: "localhost_server",
+				image: null,
+				isStarted: true,
+				name: "localhost_test_server",
+				port: "1337"
+			}
+		}
+
 		var keys = Object.keys(serverList);
 		for (var i = 0; i < keys.length; i++) {
 			list.push(this.renderServer(serverList[keys[i]]));

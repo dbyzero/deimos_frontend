@@ -5,11 +5,10 @@ var Main = require('./components/Main.jsx');
 var run = function(){
 	var doNotDuplicate = '4596fb97f98c4683930281f25a241c32-puck-campfire';
 	var exist = document.getElementById(doNotDuplicate);
-	console.log(exist);
 	if(exist !== null) return;
 	var el = document.createElement('section');
 	el.setAttribute('id',doNotDuplicate);
-	AppActions.init();
+	AppActions.connect();
 	React.render(<Main domElement={el}/>,el);
 	document.body.appendChild(el);
 }

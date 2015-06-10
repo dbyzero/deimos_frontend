@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var Reflux = require('reflux');
+var md5 = require('MD5');
 
 var AppActions = require('../../actions/AppActions.js');
 var AppStore = require('../../stores/AppStore');
@@ -28,7 +29,7 @@ var LoginForm = React.createClass({
 				<div>
 					<div style={{'fontWeight':'bold','fontSize':'20px','padding':'4px 0px'}}>Login Form</div>
 					<input ref="login" type="text" placeholder="Account"  defaultValue="lolo"/>
-					<input ref="password" type="password" placeholder="Password" defaultValue="f71dbe52628a3f83a77ab494817525c6"/><br/>
+					<input ref="password" type="password" placeholder="Password" defaultValue="toto"/><br/>
 
 					<button type="button" onClick={this.onClickLogin} style={{
 						"display":this.props.isAuth ? "none" : "inline-block"
@@ -37,14 +38,6 @@ var LoginForm = React.createClass({
 					<button type="button" onClick={this.onClickLoggout} style={{
 						"display":this.props.isAuth ? "inline-block" : "none"
 					}}> Logout </button>
-
-					<button type="button" onClick={this.onClickConnect} style={{
-						"display":this.props.isConnected ? "none" : "inline-block"
-					}}> Connect </button>
-
-					<button type="button" onClick={this.onClickDisconnect} style={{
-						"display":(this.props.isConnected && !this.props.isAuth) ? "inline-block" : "none"
-					}}> Disconnect </button>
 
 				</div>
 				<div ref="statusBar">
@@ -61,22 +54,12 @@ var LoginForm = React.createClass({
 		var login = this.refs['login'].getDOMNode().value;
 		var password = this.refs['password'].getDOMNode().value;
 		if(login && password) {
-			AppActions.login(login,password);
+			AppActions.login(login,md5(password));
 		}
 	},
 
 	onClickLoggout: function(e) {
 		AppActions.loggout();
-	},
-
-	onClickConnect: function() {
-		console.log(__filename + ' onClickConnect');
-		this.props.onClickConnect();
-	},
-
-	onClickDisconnect: function() {
-		console.log(__filename + ' onClickDisconnect');
-		this.props.onClickDisconnect();
 	},
 
 	componentDidUpdate: function() {

@@ -29,12 +29,6 @@ var AppStore = Reflux.createStore({
 		this.trigger(state);
 	},
 
-	onDisconnected: function() {
-		console.log(__filename + ' onDisconnect '+arguments)
-		state.isConnected = false;
-		this.trigger(state);
-	},
-
 	onLoggued: function(data) {
 		state.sessionID = data.sessionid;
 		state.account = data.login;
@@ -43,11 +37,15 @@ var AppStore = Reflux.createStore({
 	},
 
 	onLoggout: function(sessionid) {
-		state.sessionID = null;
-		state.account = null;
-		state.isAuth = false;
-		this.trigger(state);
+		resetStore();
 	}
 });
+
+var resetStore = function() {
+	state.sessionID = null;
+	state.account = null;
+	state.isAuth = false;
+	AppStore.trigger(state);
+}
 
 module.exports = AppStore;

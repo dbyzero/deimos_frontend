@@ -5,7 +5,7 @@ var AppActions = require('../actions/AppActions.js');
 var INITIAL_STATE = {
 	'username':'n/a',
 	'messages': [],
-	'channel':'',
+	'channel':'n/a',
 	'reduce':false,
 	'users':[]
 };
@@ -50,14 +50,18 @@ var ChatStore = Reflux.createStore({
 		this.trigger(state);
 	},
 
-	onDisconnected: function() {
+	onLoggout: function(sessionid) {
 		console.log(__filename + ' onDisconnect '+arguments)
-		state.username = "n/a";
-		state.channel = "n/a";
-		state.users = [];
-		state.messages = [];
-		this.trigger(state);
+		resetStore();
 	}
 });
+
+var resetStore = function() {
+	state.username = "n/a";
+	state.channel = "n/a";
+	state.users = [];
+	state.messages = [];
+	ChatStore.trigger(state);
+}
 
 module.exports = ChatStore;

@@ -22,11 +22,6 @@ var GameManagerStore = Reflux.createStore({
 		state = INITIAL_STATE;
 	},
 
-	onDisconnected: function() {
-		console.log(__filename + ' onDisconnect '+arguments)
-		this.trigger(state);
-	},
-
 	onGameManagerToggle: function() {
 		console.log(__filename + ' onGameManagerToggle '+arguments)
 		state.reduce = !state.reduce;
@@ -53,9 +48,13 @@ var GameManagerStore = Reflux.createStore({
 
 	onLoggout: function(port) {
 		console.log(__filename + ' onLoggout '+port)
-		state.onGame = null;
-		this.trigger(state);
+		resetStore();
 	}
 });
+
+var resetStore = function() {
+	state.onGame = null;
+	GameManagerStore.trigger(state);
+}
 
 module.exports = GameManagerStore;

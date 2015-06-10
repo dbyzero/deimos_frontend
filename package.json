@@ -13,6 +13,7 @@
   "author": "half",
   "license": "private",
   "dependencies": {
+    "MD5": "^1.2.2",
     "react": "^0.13.2",
     "reactify": "^1.1.0",
     "reflux": "^0.2.7",

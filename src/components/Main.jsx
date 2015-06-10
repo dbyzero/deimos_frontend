@@ -21,8 +21,6 @@ var Main = React.createClass({
 				<LoginForm
 					isAuth={this.state.isAuth}
 					isConnected={this.state.isConnected}
-					onClickConnect={onClickConnect.bind(this)}
-					onClickDisconnect={onClickDisconnect.bind(this)}
 				/>
 				<Chat 
 					isAuth={this.state.isAuth}
@@ -41,14 +39,6 @@ var Main = React.createClass({
 var onChatSendMessage = function(msg) {
 	console.log(__filename + ' onSendMessage '+ msg);
 	AppActions.chatSendMessage(msg);
-}
-
-var onClickConnect = function() {
-	AppActions.connect();
-}
-
-var onClickDisconnect = function() {
-	AppActions.disconnect();
 }
 
 module.exports = Main;

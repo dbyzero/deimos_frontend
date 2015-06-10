@@ -6,9 +6,7 @@ var io = require('socket.io-client');
 var Actions = Reflux.createActions([
 	"init",
 	"connect",
-	"disconnect",
 	"connected",
-	"disconnected",
 	"loggued",
 	"login",
 	"loggout",
@@ -35,16 +33,13 @@ var sessionid = null;
 var username = null;
 var GAME_CONTAINER_DOM_ID = 'gamezone';
 
-Actions.init.listen(function(){
-	Actions.connect();
-});
-
 Actions.connect.listen(function () {
 	console.log( __filename + ' connect ' + arguments );
 	if(wsConnection !== null) {
 		wsConnection.connect();
 	} else {
 		wsConnection = io.connect(Config.serverURL);
+		wsConnection.emit('loggout',sessionid);
 		wsConnection
 			//General purpose
 			.on('connect',function(){
@@ -72,32 +67,20 @@ Actions.connect.listen(function () {
  * Global actions
  ****************/
 
-Actions.disconnect.listen(function () {
-	console.log( __filename + ' disconnect ' + arguments );
-	if((wsConnection !== null) && wsConnection.connected === true) {
-		wsConnection.disconnect();
-		Actions.disconnected();
-	}
+Actions.loggout.listen(function () {
+	console.log( __filename + ' loggout ' );
+	Actions.gameCleanGameArea();
+	wsConnection.emit('loggout',sessionid);
+	// delete wsConnection;
 });
 
 Actions.connected.listen(function () {
 	console.log( __filename + ' connected ' + arguments );
 });
 
-Actions.disconnected.listen(function () {
-	console.log( __filename + ' disconnected ' + arguments );
-	Actions.gameCleanGameArea();
-});
-
 Actions.login.listen(function (login,password) {
-	wsConnection.emit('login',{data:{'login':login,'password':password}});
 	console.log( __filename + ' login ' );
-});
-
-Actions.loggout.listen(function () {
-	console.log( __filename + ' loggout ' );
-	Actions.gameCleanGameArea();
-	wsConnection.emit('loggout',sessionid);
+	wsConnection.emit('login',{data:{'login':login,'password':password}});
 });
 
 Actions.loginFormToggle.listen(function () {
@@ -105,9 +88,9 @@ Actions.loginFormToggle.listen(function () {
 });
 
 Actions.loggued.listen(function (data) {
+	console.log( __filename + ' loggued ' );
 	sessionid = data.sessionid;
 	username = data.login;
-	console.log( __filename + ' loggued ' );
 });
 
 Actions.serverError.listen(function (data) {

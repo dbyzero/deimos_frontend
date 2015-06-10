@@ -22,6 +22,7 @@ var Actions = Reflux.createActions([
 	"gameDestroyServer",
 	"gameLeaveServer",
 	"gameFillServerList",
+	"gameCleanGameArea",
 	"chatSendMessage",
 	"chatHasNewMessage",
 	"chatInit",
@@ -85,6 +86,7 @@ Actions.connected.listen(function () {
 
 Actions.disconnected.listen(function () {
 	console.log( __filename + ' disconnected ' + arguments );
+	Actions.gameCleanGameArea();
 });
 
 Actions.login.listen(function (login,password) {
@@ -93,8 +95,9 @@ Actions.login.listen(function (login,password) {
 });
 
 Actions.loggout.listen(function () {
-	wsConnection.emit('loggout',sessionid);
 	console.log( __filename + ' loggout ' );
+	Actions.gameCleanGameArea();
+	wsConnection.emit('loggout',sessionid);
 });
 
 Actions.loginFormToggle.listen(function () {
@@ -192,9 +195,7 @@ Actions.gameStartServer.listen(function (serverName) {
 
 Actions.gameLeaveServer.listen(function () {
 	console.log( __filename + ' gameLeaveServer ');
-	org.dbyzero.deimos.Engine.stop();
-	var gamezone = document.getElementById(GAME_CONTAINER_DOM_ID);
-	if(gamezone) gamezone.parentNode.removeChild(gamezone);
+	Actions.gameCleanGameArea();
 });
 
 Actions.gameStopServer.listen(function (serverName) {
@@ -204,6 +205,13 @@ Actions.gameStopServer.listen(function (serverName) {
 
 Actions.gameManagerToggle.listen(function () {
 	console.log( __filename + ' chatToggle ' );
+});
+
+Actions.gameCleanGameArea.listen(function () {
+	console.log( __filename + ' gameCleanGameArea ' );
+	org.dbyzero.deimos.Engine.stop();
+	var gamezone = document.getElementById(GAME_CONTAINER_DOM_ID);
+	if(gamezone) gamezone.parentNode.removeChild(gamezone);
 });
 
 module.exports = Actions;

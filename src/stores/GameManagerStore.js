@@ -49,6 +49,12 @@ var GameManagerStore = Reflux.createStore({
 		console.log(__filename + ' onGameLeaveServer '+port)
 		state.onGame = null;
 		this.trigger(state);
+	},
+
+	onLoggout: function(port) {
+		console.log(__filename + ' onLoggout '+port)
+		state.onGame = null;
+		this.trigger(state);
 	}
 });
 

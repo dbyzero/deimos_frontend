@@ -4,10 +4,12 @@ var Reflux = require('reflux');
 
 var AppActions = require('../../actions/AppActions.js');
 var GameManagerStore = require('../../stores/GameManagerStore');
+var AppStore = require('../../stores/AppStore');
 var Led = require('../basic/Led.jsx');
 
 var GameManager = React.createClass({
 	mixins: [
+		Reflux.connect(AppStore,'App'),
 		Reflux.connect(GameManagerStore),
 	],
 
@@ -32,6 +34,17 @@ var GameManager = React.createClass({
 				<div style={{"display":this.props.isAuth ? "block" : "none"}}>
 					<div style={{'fontWeight':'bold','fontSize':'20px','padding':'4px 0px'}}>Game List</div>
 					{this.renderServerList(this.state.serverList)}
+					<button onClick={AppActions.gameCreateServer}>Create server</button>
+					<button onClick={
+						function(){
+							AppActions.gameInitLevel(
+								{
+									'type':'home',
+									'avatarId':25 //Superman for test purpose
+								}
+							)
+						}.bind(this)
+					}>Create home level</button>
 				</div>
 				<div ref="statusBar">
 					<div style={{'padding':'10px 0 5px 0','cursor':'pointer'}} onClick={this.props.onGameManagerToggle}>
@@ -73,10 +86,6 @@ var GameManager = React.createClass({
 					{this.renderStopServer(server)}
 					{this.renderLeaveServer(server)}
 				</li>);
-	},
-
-	onClick: function() {
-		console.log('click');
 	},
 
 	renderJoinServer: function(server) {

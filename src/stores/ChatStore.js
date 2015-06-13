@@ -6,7 +6,7 @@ var INITIAL_STATE = {
 	'username':'n/a',
 	'messages': [],
 	'channel':'n/a',
-	'reduce':false,
+	'reduce':true,
 	'users':[]
 };
 

@@ -17,7 +17,6 @@ var Main = React.createClass({
 	render: function() {
 		return (
 			<div>
-				<button style={{'position':'absolute','bottom':'0px','left':'100px'}} onClick={AppActions.gameCreateServer}>Create server</button>
 				<LoginForm
 					isAuth={this.state.isAuth}
 					isConnected={this.state.isConnected}

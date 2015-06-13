@@ -7,6 +7,7 @@ var Actions = Reflux.createActions([
 	"init",
 	"connect",
 	"connected",
+	"disconnected",
 	"loggued",
 	"login",
 	"loggout",
@@ -21,6 +22,7 @@ var Actions = Reflux.createActions([
 	"gameLeaveServer",
 	"gameFillServerList",
 	"gameCleanGameArea",
+	"gameInitLevel",
 	"chatSendMessage",
 	"chatHasNewMessage",
 	"chatInit",
@@ -31,7 +33,7 @@ var Actions = Reflux.createActions([
 var wsConnection = null;
 var sessionid = null;
 var username = null;
-var GAME_CONTAINER_DOM_ID = 'gamezone';
+var GAME_CONTAINER_DOM_ID = 'gamezone-'+Date.now()+parseInt(Math.random()*10000000000000);
 
 Actions.connect.listen(function () {
 	console.log( __filename + ' connect ' + arguments );
@@ -39,15 +41,19 @@ Actions.connect.listen(function () {
 		wsConnection.connect();
 	} else {
 		wsConnection = io.connect(Config.serverURL);
-		wsConnection.emit('loggout',sessionid);
+		if(wsConnection.connected) {
+			wsConnection.emit('loggout',sessionid);
+		}
 		wsConnection
 			//General purpose
 			.on('connect',function(){
 				Actions.connected();
 			})
-			.on('connect_error',Actions.disconnected)
 			.on('loggued',function(data){
 				Actions.loggued(data);
+			})
+			.on('disconnect',function(data){
+				Actions.disconnected(data);
 			})
 			.on('serverError',function(data){
 				Actions.serverError(data);
@@ -67,11 +73,14 @@ Actions.connect.listen(function () {
  * Global actions
  ****************/
 
+Actions.disconnected.listen(function () {
+	console.log( __filename + ' loggout ' );
+	Actions.gameCleanGameArea();
+});
 Actions.loggout.listen(function () {
 	console.log( __filename + ' loggout ' );
 	Actions.gameCleanGameArea();
 	wsConnection.emit('loggout',sessionid);
-	// delete wsConnection;
 });
 
 Actions.connected.listen(function () {
@@ -130,7 +139,7 @@ Actions.chatToggle.listen(function () {
 
 Actions.gameCreateServer.listen(function (msg) {
 	console.log( __filename + ' gameTest2 ' + msg );
-	wsConnection.emit('game.test2',{data:msg});
+	wsConnection.emit('game.test2','home_25');
 });
 
 Actions.gameFillServerList.listen(function (list) {
@@ -162,6 +171,7 @@ Actions.gameJoinServer.listen(function (port) {
 
 	//join game
 	var config = {
+		domId : GAME_CONTAINER_DOM_ID,
 		serverURL : Config.gameServerDomain,
 		serverPort : port,
 		serverAssetURL : Config.assetURL,
@@ -195,6 +205,11 @@ Actions.gameCleanGameArea.listen(function () {
 	org.dbyzero.deimos.Engine.stop();
 	var gamezone = document.getElementById(GAME_CONTAINER_DOM_ID);
 	if(gamezone) gamezone.parentNode.removeChild(gamezone);
+});
+
+Actions.gameInitLevel.listen(function (config) {
+	console.log( __filename + ' gameInitLevel ' );
+	wsConnection.emit('game.initLevel',{'config':config});
 });
 
 module.exports = Actions;

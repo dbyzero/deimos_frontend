@@ -8,7 +8,7 @@ var run = function(){
 	if(exist !== null) return;
 	var el = document.createElement('section');
 	el.setAttribute('id',doNotDuplicate);
-	AppActions.connect();
+	AppActions.init();
 	React.render(<Main domElement={el}/>,el);
 	document.body.appendChild(el);
 }

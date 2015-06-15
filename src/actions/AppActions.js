@@ -1,11 +1,14 @@
 var Reflux = require('reflux');
 var Config = require('../../Config');
 var io = require('socket.io-client');
+var request = require('request');
+var tough = require('tough-cookie');
+var base64 = require('base64-url');
 
 // Test actions
 var Actions = Reflux.createActions([
 	"init",
-	"connect",
+	"init",
 	"connected",
 	"disconnected",
 	"loggued",
@@ -13,6 +16,12 @@ var Actions = Reflux.createActions([
 	"loggout",
 	"loginFormToggle",
 	"serverError",
+	"askCookie",
+	"setCookie",
+	"getSessionInfoCookie",
+	"cleanCookie",
+	"sendMessageToIFrame",
+	"receiveMessageFromIFrame",
 	"gameCreateServer",
 	"gameManagerToggle",
 	"gameJoinServer",
@@ -34,8 +43,10 @@ var wsConnection = null;
 var sessionid = null;
 var username = null;
 var GAME_CONTAINER_DOM_ID = 'gamezone-'+Date.now()+parseInt(Math.random()*10000000000000);
+var TOKEN_SECRET = 'c2Vzc2lvbmlkIjoiNjY0ZTk2NGU0M';
+var SESSION_COOKIE_KEY = 'sessioninfo';
 
-Actions.connect.listen(function () {
+Actions.init.listen(function () {
 	console.log( __filename + ' connect ' + arguments );
 	if(wsConnection !== null) {
 		wsConnection.connect();
@@ -55,6 +66,10 @@ Actions.connect.listen(function () {
 			.on('disconnect',function(data){
 				Actions.disconnected(data);
 			})
+			.on('sessionRevoked',function(data){
+				Actions.loggout();
+				Actions.cleanCookie(SESSION_COOKIE_KEY);
+			})
 			.on('serverError',function(data){
 				Actions.serverError(data);
 			})
@@ -67,6 +82,9 @@ Actions.connect.listen(function () {
 			//Game purpose
 			.on('game.serverList',Actions.gameFillServerList)
 	}
+
+	//we listen return from iFrame
+	window.addEventListener("message", Actions.receiveMessageFromIFrame, false);
 });
 
 /*****************
@@ -74,17 +92,19 @@ Actions.connect.listen(function () {
  ****************/
 
 Actions.disconnected.listen(function () {
-	console.log( __filename + ' loggout ' );
+	console.log( __filename + ' disconnected ' );
 	Actions.gameCleanGameArea();
 });
 Actions.loggout.listen(function () {
 	console.log( __filename + ' loggout ' );
 	Actions.gameCleanGameArea();
 	wsConnection.emit('loggout',sessionid);
+	Actions.cleanCookie();
 });
 
 Actions.connected.listen(function () {
 	console.log( __filename + ' connected ' + arguments );
+	Actions.askCookie();
 });
 
 Actions.login.listen(function (login,password) {
@@ -100,11 +120,56 @@ Actions.loggued.listen(function (data) {
 	console.log( __filename + ' loggued ' );
 	sessionid = data.sessionid;
 	username = data.login;
+	Actions.setCookie(username,sessionid);
 });
 
 Actions.serverError.listen(function (data) {
 	console.log( __filename + ' serverError ' );
-	alert(data.message);
+	console.log(data);
+});
+
+Actions.askCookie.listen(function(message) {
+	Actions.sendMessageToIFrame({'action':'get','key':SESSION_COOKIE_KEY});
+});
+
+Actions.getSessionInfoCookie.listen(function(sessionInfoRaw) {
+	try {
+		var sessioninfo = JSON.parse(sessionInfoRaw);
+		if(sessioninfo && sessioninfo.sessionid && sessioninfo.username) {
+			wsConnection.emit('loginBySessionId',{data:{'login':sessioninfo.username,'sessionid':sessioninfo.sessionid}});
+		}
+	} catch(err) {
+		console.error(err);
+		Actions.loggout();
+	}
+});
+
+Actions.setCookie.listen(function(username,sessionid) {
+	Actions.sendMessageToIFrame({
+		'action':'set',
+		'key':SESSION_COOKIE_KEY,
+		'value':base64.encode(base64.encode('{"username":"'+username+'", "sessionid":"'+sessionid+'"}')+TOKEN_SECRET)
+	});
+});
+
+Actions.cleanCookie.listen(function() {
+	Actions.sendMessageToIFrame({
+		'action':'clean',
+		'key':SESSION_COOKIE_KEY
+	});
+});
+
+Actions.sendMessageToIFrame.listen(function(message) {
+	var iFrame = document.getElementById('puck_iframe_credentials');
+	iFrame.contentWindow.postMessage(message,Config.serverURL);
+});
+
+Actions.receiveMessageFromIFrame.listen(function(event) {
+	if(event.origin !== Config.serverURL) return;
+	var value = event.data.value ? base64.decode(base64.decode(event.data.value).slice(0,-1*TOKEN_SECRET.length)) : null;
+	if(event.data.key === SESSION_COOKIE_KEY) {
+		Actions.getSessionInfoCookie(value);
+	}
 });
 
 /****************
@@ -114,7 +179,6 @@ Actions.serverError.listen(function (data) {
 Actions.chatSendMessage.listen(function ( msg ) {
 	console.log( __filename + ' chatSendMessage ' + msg );
 	wsConnection.emit('chat.message',{data:msg});
-
 });
 
 Actions.chatHasNewMessage.listen(function (data) {

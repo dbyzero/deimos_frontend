@@ -1,5 +1,5 @@
 {
-	"serverURL" : "http://localhost:1080",
-	"gameServerDomain" : "localhost",
-	"assetURL" : "http://localhost:8080"
+	"serverURL" : "http://puck.dbyzero.com:1080",
+	"gameServerDomain" : "puck.dbyzero.com",
+	"assetURL" : "http://puck.dbyzero.com:8080"
 }

@@ -18,6 +18,7 @@ var Main = React.createClass({
 		return (
 			<div>
 				<LoginForm
+					hide={this.state.hideLoginForm}
 					isAuth={this.state.isAuth}
 					isConnected={this.state.isConnected}
 				/>

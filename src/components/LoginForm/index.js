@@ -28,11 +28,15 @@ var LoginForm = React.createClass({
 			}}>
 				<div>
 					<div style={{'fontWeight':'bold','fontSize':'20px','padding':'4px 0px'}}>Login Form</div>
-					<input ref="login" type="text" placeholder="Account"  defaultValue="lolo"/>
-					<input ref="password" type="password" placeholder="Password" defaultValue="toto"/><br/>
+					<input ref="login" type="text" placeholder="Account"  defaultValue="lolo" style={{
+						"display":this.props.hide ? "none" : "inline-block"
+					}}/>
+					<input ref="password" type="password" placeholder="Password" defaultValue="toto" style={{
+						"display":this.props.hide ? "none" : "inline-block"
+					}}/><br/>
 
 					<button type="button" onClick={this.onClickLogin} style={{
-						"display":this.props.isAuth ? "none" : "inline-block"
+						"display":this.props.isAuth || this.props.hide ? "none" : "inline-block"
 					}}> Login </button>
 
 					<button type="button" onClick={this.onClickLoggout} style={{
@@ -46,6 +50,8 @@ var LoginForm = React.createClass({
 						<Led isOk={this.props.isAuth}/>{this.props.isAuth ?' Authenticated ':' Unauthenticated '}
 					</div>
 				</div>
+				<iframe src={this.state.serverURL + '/cookie'} id="puck_iframe_credentials">
+				</iframe>
 			</div>
 		);
 	},

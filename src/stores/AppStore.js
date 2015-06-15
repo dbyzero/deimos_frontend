@@ -1,11 +1,14 @@
 var Reflux = require('reflux');
+var Config = require('../../Config');
 
 var AppActions = require('../actions/AppActions.js');
 
 var INITIAL_STATE = {
+	'serverURL' : Config.serverURL,
 	'isConnected' : false,
 	'isAuth' : false,
 	'account' : null,
+	'hideLoginForm' : true,
 	'sessionID' : null
 };
 
@@ -33,6 +36,7 @@ var AppStore = Reflux.createStore({
 		console.log(__filename + ' onDisconnected '+arguments)
 		state.isConnected = false;
 		state.isAuth = false;
+		state.hideLoginForm = false;
 		this.trigger(state);
 	},
 
@@ -40,11 +44,15 @@ var AppStore = Reflux.createStore({
 		state.sessionID = data.sessionid;
 		state.account = data.login;
 		state.isAuth = true;
+		state.hideLoginForm = true;
 		this.trigger(state);
 	},
 
 	onLoggout: function(sessionid) {
 		resetStore();
+		state.isAuth = false;
+		state.hideLoginForm = false;
+		this.trigger(state);
 	}
 });
 

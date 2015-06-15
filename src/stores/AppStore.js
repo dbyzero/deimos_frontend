@@ -8,7 +8,7 @@ var INITIAL_STATE = {
 	'isConnected' : false,
 	'isAuth' : false,
 	'account' : null,
-	'hideLoginForm' : true,
+	'hideLoginForm' : false,
 	'sessionID' : null
 };
 

@@ -2,7 +2,6 @@ var Reflux = require('reflux');
 var Config = require('../../Config');
 var io = require('socket.io-client');
 var request = require('request');
-var tough = require('tough-cookie');
 var base64 = require('base64-url');
 
 // Test actions

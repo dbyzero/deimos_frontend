@@ -18,7 +18,7 @@ gulp.task('browserify', function() {
     var makeIt = function() {
         return watcher
             .bundle() // Create the initial bundle when starting the task
-            .pipe(source('main.js'))
+            .pipe(source('puck.js'))
             .pipe(buffer())
             // .pipe(uglify())
             .pipe(gulp.dest('./dist/'));

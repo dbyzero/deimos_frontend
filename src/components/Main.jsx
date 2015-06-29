@@ -3,9 +3,11 @@ var Reflux = require('reflux');
 var AppStore = require('../stores/AppStore');
 var AppActions = require('../actions/AppActions');
 
-var Chat = require('./Chat');
-var LoginForm = require('./LoginForm');
-var GameManager = require('./GameManager');
+// var Chat = require('./Chat');
+var MainContainer = require('./containers/MainContainer.jsx');
+var CharacterSheetContainer = require('./containers/CharacterSheetContainer.jsx');
+// var LoginForm = require('./LoginForm');
+// var GameManager = require('./GameManager');
 
 //metrics to notify a changement
 
@@ -17,6 +19,16 @@ var Main = React.createClass({
 	render: function() {
 		return (
 			<div>
+				<MainContainer
+					isHidden={this.state.isHidden}
+					isAuth={this.state.isAuth}
+					isConnected={this.state.isConnected}
+					serverURL={this.state.serverURL}
+					appState={this.state.appState}
+				/>
+				{this.state.showInventory ? this.showInventory() : undefined}
+				{
+				/*
 				<LoginForm
 					hide={this.state.hideLoginForm}
 					isAuth={this.state.isAuth}
@@ -31,8 +43,16 @@ var Main = React.createClass({
 					onGameManagerToggle={AppActions.gameManagerToggle}
 					isAuth={this.state.isAuth}
 				/>
+				*/
+				}
 			</div>
 		);
+	},
+
+	showInventory: function() {
+		return <CharacterSheetContainer
+			isHidden={this.state.isHidden}
+		/>
 	}
 });
 

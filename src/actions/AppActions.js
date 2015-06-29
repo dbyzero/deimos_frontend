@@ -13,14 +13,28 @@ var Actions = Reflux.createActions([
 	"loggued",
 	"login",
 	"loggout",
-	"loginFormToggle",
+	"register",
+	"mainContainerToggle",
 	"serverError",
 	"askCookie",
 	"setCookie",
 	"getSessionInfoCookie",
+	"setCharacterSelected",
 	"cleanCookie",
 	"sendMessageToIFrame",
 	"receiveMessageFromIFrame",
+
+	/** STATE **/
+	"changeState",
+	"showLoginForm",
+	"showRegisterForm",
+	"showHomeScreen",
+	"showCreateCharacterForm",
+	"showJoinPartyScreen",
+	"showCreatePartyScreen",
+	"showIngameScreen",
+	"showCharacterSheetScreen",
+
 	"gameCreateServer",
 	"gameManagerToggle",
 	"gameJoinServer",
@@ -30,17 +44,13 @@ var Actions = Reflux.createActions([
 	"gameLeaveServer",
 	"gameFillServerList",
 	"gameCleanGameArea",
-	"gameInitLevel",
-	"chatSendMessage",
-	"chatHasNewMessage",
-	"chatInit",
-	"chatHasNewUserList",
-	"chatToggle"
+	"gameInitLevel"
 ]);
 
 var wsConnection = null;
 var sessionid = null;
 var username = null;
+var currentAvatarSelected = null;
 var GAME_CONTAINER_DOM_ID = 'gamezone-'+Date.now()+parseInt(Math.random()*10000000000000);
 var TOKEN_SECRET = 'c2Vzc2lvbmlkIjoiNjY0ZTk2NGU0M';
 var SESSION_COOKIE_KEY = 'sessioninfo';
@@ -73,11 +83,6 @@ Actions.init.listen(function () {
 				Actions.serverError(data);
 			})
 
-			//Chat purpose
-			.on('chat.welcome',Actions.chatInit)
-			.on('chat.message',Actions.chatHasNewMessage)
-			.on('chat.newUserList',Actions.chatHasNewUserList)
-
 			//Game purpose
 			.on('game.serverList',Actions.gameFillServerList)
 	}
@@ -94,11 +99,17 @@ Actions.disconnected.listen(function () {
 	console.log( __filename + ' disconnected ' );
 	Actions.gameCleanGameArea();
 });
+
 Actions.loggout.listen(function () {
 	console.log( __filename + ' loggout ' );
 	Actions.gameCleanGameArea();
 	wsConnection.emit('loggout',sessionid);
 	Actions.cleanCookie();
+});
+
+Actions.register.listen(function (login,password,mail) {
+	console.log( __filename + ' register ' );
+	wsConnection.emit('register',{'data':{'login':login,'password':password,'mail':mail}});
 });
 
 Actions.connected.listen(function () {
@@ -108,23 +119,27 @@ Actions.connected.listen(function () {
 
 Actions.login.listen(function (login,password) {
 	console.log( __filename + ' login ' );
-	wsConnection.emit('login',{data:{'login':login,'password':password}});
+	wsConnection.emit('login',{'data':{'login':login,'password':password}});
 });
 
-Actions.loginFormToggle.listen(function () {
-	console.log( __filename + ' loginFormToggle ' );
+Actions.mainContainerToggle.listen(function () {
+	console.log( __filename + ' mainContainerToggle ' );
 });
 
 Actions.loggued.listen(function (data) {
 	console.log( __filename + ' loggued ' );
 	sessionid = data.sessionid;
 	username = data.login;
-	Actions.setCookie(username,sessionid);
+	var currentAvatarSelected = null;
+	if(data.characters && data.characters.length > 0) {
+		currentAvatarSelected = data.characters[0].id;
+	}
+	Actions.setCookie(username,sessionid,currentAvatarSelected);
 });
 
 Actions.serverError.listen(function (data) {
 	console.log( __filename + ' serverError ' );
-	console.log(data);
+	alert(data.message);
 });
 
 Actions.askCookie.listen(function(message) {
@@ -137,18 +152,24 @@ Actions.getSessionInfoCookie.listen(function(sessionInfoRaw) {
 		if(sessioninfo && sessioninfo.sessionid && sessioninfo.username) {
 			wsConnection.emit('loginBySessionId',{data:{'login':sessioninfo.username,'sessionid':sessioninfo.sessionid}});
 		}
+		Actions.setCharacterSelected(sessioninfo.currentAvatarSelected || null);
 	} catch(err) {
 		console.error(err);
 		Actions.loggout();
 	}
 });
 
-Actions.setCookie.listen(function(username,sessionid) {
+Actions.setCookie.listen(function(username,sessionid,currentAvatarSelected) {
 	Actions.sendMessageToIFrame({
 		'action':'set',
 		'key':SESSION_COOKIE_KEY,
-		'value':base64.encode(base64.encode('{"username":"'+username+'", "sessionid":"'+sessionid+'"}')+TOKEN_SECRET)
+		'value':base64.encode(base64.encode('{"username":"'+username+'", "sessionid":"'+sessionid+'", "currentAvatarSelected":"'+currentAvatarSelected+'"}')+TOKEN_SECRET)
 	});
+});
+
+Actions.setCharacterSelected.listen(function(_currentAvatarSelected) {
+	Actions.setCookie(username,sessionid,_currentAvatarSelected);
+	currentAvatarSelected = _currentAvatarSelected;
 });
 
 Actions.cleanCookie.listen(function() {
@@ -171,29 +192,36 @@ Actions.receiveMessageFromIFrame.listen(function(event) {
 	}
 });
 
-/****************
- * Chat actions
- ***************/
-
-Actions.chatSendMessage.listen(function ( msg ) {
-	console.log( __filename + ' chatSendMessage ' + msg );
-	wsConnection.emit('chat.message',{data:msg});
+Actions.showLoginForm.listen(function(event) {
+	Actions.changeState("LoginForm");
 });
 
-Actions.chatHasNewMessage.listen(function (data) {
-	console.log( __filename + ' chatHasNewMessage ' + data );
+Actions.showRegisterForm.listen(function(event) {
+	Actions.changeState("RegisterForm");
 });
 
-Actions.chatInit.listen(function (data) {
-	console.log( __filename + ' chatInit ' + data );
+Actions.showHomeScreen.listen(function(event) {
+	Actions.changeState("HomeScreen");
 });
 
-Actions.chatHasNewUserList.listen(function (data) {
-	console.log( __filename + ' chatHasNewUserList ' );
+Actions.showCreateCharacterForm.listen(function(event) {
+	Actions.changeState("CreateCharacterForm");
 });
 
-Actions.chatToggle.listen(function () {
-	console.log( __filename + ' chatToggle ' );
+Actions.showJoinPartyScreen.listen(function(event) {
+	Actions.changeState("JoinPartyScreen");
+});
+
+Actions.showCreatePartyScreen.listen(function(event) {
+	Actions.changeState("CreatePartyScreen");
+});
+
+Actions.showIngameScreen.listen(function(event) {
+	Actions.changeState("IngameScreen");
+});
+
+Actions.showCharacterSheetScreen.listen(function(event) {
+	Actions.changeState("CharacterSheetScreen");
 });
 
 /****************
@@ -260,7 +288,7 @@ Actions.gameStopServer.listen(function (serverName) {
 });
 
 Actions.gameManagerToggle.listen(function () {
-	console.log( __filename + ' chatToggle ' );
+	console.log( __filename + ' gameManagerToggle ' );
 });
 
 Actions.gameCleanGameArea.listen(function () {

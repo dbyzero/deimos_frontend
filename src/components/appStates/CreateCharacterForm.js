@@ -23,7 +23,7 @@ var CreateCharacterForm = React.createClass({
 			will:30,
 			willRegen:7,
 			damage:60,
-			training:60
+			skillBonus:60
 		}
 	},
 
@@ -50,7 +50,7 @@ var CreateCharacterForm = React.createClass({
 				<div style={cssStyle['stats_hp']}><strong>{this.state.hp}</strong> Maximum HP</div>
 				<div style={cssStyle['stats_will']}><strong>{this.state.will}</strong> Will (regen <strong>{this.state.willRegen}</strong>/s)</div>
 				<div style={cssStyle['stats_physical_damage']}>+<strong>{this.state.damage}</strong>% physical damage</div>
-				<div style={cssStyle['stats_skill_effeciency']}>+<strong>{this.state.training}</strong>% skill effeciency</div>
+				<div style={cssStyle['stats_skill_effeciency']}>+<strong>{this.state.skillBonus}</strong>% skill effeciency</div>
 				<input ref="name" type="text" placeholder="Name" style={{'width':'280px'}}/>
 				<br/>
 				<div style={{width:'200px'}}>
@@ -122,7 +122,7 @@ var CreateCharacterForm = React.createClass({
 		newState['will'] = parseInt(this.state.val2 * 5);
 		newState['willRegen'] = parseInt(this.state.val3);
 		newState['damage'] = parseInt(this.state.val0 * 10);
-		newState['training'] = parseInt(this.state.val4 * 10);
+		newState['skillBonus'] = parseInt(this.state.val4 * 10);
 		this.setState(newState);
 	},
 
@@ -137,12 +137,12 @@ var CreateCharacterForm = React.createClass({
 		data['will']		= this.state.will || null;
 		data['willRegen']	= this.state.willRegen || null;
 		data['damage']		= this.state.damage || null;
-		data['training']	= this.state.training || null;
+		data['skillBonus']	= this.state.skillBonus || null;
 		data['strengh']		= this.state.val0 || null;
 		data['endurance']	= this.state.val1 || null;
 		data['willpower']	= this.state.val2 || null;
 		data['focus']		= this.state.val3 || null;
-		data['traning']		= this.state.val4 || null;
+		data['training']		= this.state.val4 || null;
 
 		if(data['name'].length < 3) {
 			AppActions.serverError('nameTooShort');
@@ -151,12 +151,12 @@ var CreateCharacterForm = React.createClass({
 			data['will'] === null ||
 			data['willRegen'] === null ||
 			data['damage'] === null ||
-			data['training'] === null ||
+			data['skillBonus'] === null ||
 			data['strengh'] === null ||
 			data['endurance'] === null ||
 			data['willpower'] === null ||
 			data['focus'] === null ||
-			data['traning'] === null
+			data['training'] === null
 		) {
 			AppActions.serverError('nameTooShort');
 		} else {

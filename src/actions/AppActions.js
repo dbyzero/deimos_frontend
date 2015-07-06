@@ -64,7 +64,8 @@ Actions.init.listen(function () {
 	} else {
 		wsConnection = io.connect(Config.serverURL);
 		if(wsConnection.connected) {
-			wsConnection.emit('loggout',sessionid);
+			wsConnection.e
+			mit('loggout',sessionid);
 		}
 		wsConnection
 			//General purpose
@@ -148,7 +149,7 @@ Actions.loggued.listen(function (data) {
 
 Actions.serverError.listen(function (data) {
 	console.log( __filename + ' serverError ' );
-	alert(data.message);
+	alert(JSON.stringify(data.message));
 });
 
 Actions.askCookie.listen(function(message) {

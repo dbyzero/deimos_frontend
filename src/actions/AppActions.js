@@ -14,6 +14,7 @@ var Actions = Reflux.createActions([
 	"login",
 	"loggout",
 	"register",
+	"createCharacter",
 	"mainContainerToggle",
 	"serverError",
 	"askCookie",
@@ -23,6 +24,7 @@ var Actions = Reflux.createActions([
 	"cleanCookie",
 	"sendMessageToIFrame",
 	"receiveMessageFromIFrame",
+	"avatarCreated",
 
 	/** STATE **/
 	"changeState",
@@ -82,6 +84,7 @@ Actions.init.listen(function () {
 			.on('serverError',function(data){
 				Actions.serverError(data);
 			})
+			.on('avatarCreated',Actions.avatarCreated)
 
 			//Game purpose
 			.on('game.serverList',Actions.gameFillServerList)
@@ -110,6 +113,12 @@ Actions.loggout.listen(function () {
 Actions.register.listen(function (login,password,mail) {
 	console.log( __filename + ' register ' );
 	wsConnection.emit('register',{'data':{'login':login,'password':password,'mail':mail}});
+});
+
+Actions.createCharacter.listen(function (data) {
+	console.log( __filename + ' createCharacter ' );
+	data['username'] = username;
+	wsConnection.emit('createCharacter',{'data':data});
 });
 
 Actions.connected.listen(function () {

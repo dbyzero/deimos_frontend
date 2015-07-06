@@ -13,7 +13,9 @@ var Polygone = React.createClass({
 		val1:ReactPropTypes.number,
 		val2:ReactPropTypes.number,
 		val3:ReactPropTypes.number,
-		val4:ReactPropTypes.number
+		val4:ReactPropTypes.number,
+		size:ReactPropTypes.number,
+		diameter:ReactPropTypes.number
 	},
 	render: function() {
 		return (
@@ -25,20 +27,21 @@ var Polygone = React.createClass({
 		this.renderPolygone();
 	},
 
-	componentWillUpdate:function() {
+	componentDidUpdate:function() {
 		this.renderPolygone();
 	},
 
 	renderPolygone:function() {
-		renderPolygone(this.getDOMNode(),this.props,0,40,11,'CC0000');
+		renderPolygone(this.getDOMNode(),this.props.size,this.props.size,this.props,this.props.diameter,10, 11,'CC0000');
 	}
 });
 
 module.exports = Polygone;
 
-var renderPolygone = function(canvas, props, minVal, maxVal, fontSize, color) {
-	var vX = maxVal+fontSize+10;//a bit of margin
-	var vY = maxVal+fontSize+5;//a bit of margin
+var renderPolygone = function(canvas, width, height, props, diameter, maxVal, fontSize, color) {
+	diameter = parseInt(diameter);
+	var vX = diameter+fontSize+10;//a bit of margin
+	var vY = diameter+fontSize+5;//a bit of margin
 	var angle = [
 		(270 * Math.PI)/180,
 		(342 * Math.PI)/180,
@@ -47,22 +50,22 @@ var renderPolygone = function(canvas, props, minVal, maxVal, fontSize, color) {
 		(198 * Math.PI)/180
 	];
 	var context = canvas.getContext('2d');
-	canvas.width = 115;
-	canvas.height = 115;
+	canvas.width = width;
+	canvas.height = height;
 
 	context.clearRect(0, 0, canvas.width, canvas.height);
 
 	//render strokes
 	context.beginPath();
-	var x = parseInt(Math.cos(angle[0])*maxVal + vX);
-	var y = parseInt(Math.sin(angle[0])*maxVal + vY);
+	var x = parseInt(Math.cos(angle[0])*diameter + vX);
+	var y = parseInt(Math.sin(angle[0])*diameter + vY);
 	context.moveTo(x,y);
 	context.font = fontSize+"pt Arial";
 	context.textAlign = "center";
-	context.fillText(props['label0'], x, y-2);
+	context.fillText(props['label0'], x, y-4);
 	for(var i=0;i<5;i++) {
-		x = parseInt(Math.cos(angle[i])*maxVal + vX);
-		y = parseInt(Math.sin(angle[i])*maxVal + vY);
+		x = parseInt(Math.cos(angle[i])*diameter + vX);
+		y = parseInt(Math.sin(angle[i])*diameter + vY);
 		context.lineTo(x,y);
 		switch(i) {
 			case 1:
@@ -84,12 +87,12 @@ var renderPolygone = function(canvas, props, minVal, maxVal, fontSize, color) {
 
 	//render vals
 	context.beginPath();
-	var x = parseInt(Math.cos(angle[0])*Math.min(100,parseInt(props['val0']))*maxVal/100 + vX);
-	var y = parseInt(Math.sin(angle[0])*Math.min(100,parseInt(props['val0']))*maxVal/100 + vY);
+	var x = parseInt(Math.cos(angle[0])*Math.min(maxVal,parseInt(props['val0']))*diameter/maxVal + vX);
+	var y = parseInt(Math.sin(angle[0])*Math.min(maxVal,parseInt(props['val0']))*diameter/maxVal + vY);
 	context.moveTo(x,y);
 	for(var i=0;i<5;i++) {
-		x = parseInt(Math.cos(angle[i])*Math.min(100,parseInt(props['val'+i]))*maxVal/100 + vX);
-		y = parseInt(Math.sin(angle[i])*Math.min(100,parseInt(props['val'+i]))*maxVal/100 + vY);
+		x = parseInt(Math.cos(angle[i])*Math.min(maxVal,parseInt(props['val'+i]))*diameter/maxVal + vX);
+		y = parseInt(Math.sin(angle[i])*Math.min(maxVal,parseInt(props['val'+i]))*diameter/maxVal + vY);
 		context.lineTo(x,y);
 	}
 	context.closePath();

@@ -52,6 +52,16 @@ var AppStore = Reflux.createStore({
 		this.trigger(state);
 	},
 
+	getCurrentAvatar: function() {
+		for (var i = 0; i < state.characters.length; i++) {
+			console.log(state.characters[i].id);
+			if(state.characters[i].id == state.currentAvatarSelected) {
+				return state.characters[i];
+			}
+		}
+		throw new Error('Cannot find avatar selected with id '+state.currentAvatarSelected);
+	},
+
 	onDisconnected: function() {
 		console.log(__filename + ' onDisconnected '+arguments)
 		state.isConnected = false;
@@ -82,6 +92,16 @@ var AppStore = Reflux.createStore({
 			state.showInventory = false;
 		}
 		state.appState = stateScreen;
+		this.trigger(state);
+	},
+
+	onAvatarCreated: function(data) {
+		if(state.appState === 'CreateCharacterForm') {
+			state.appState = 'HomeScreen';
+		}
+		var avatar = data.avatar;
+		state.characters.push(avatar);
+		state.currentAvatarSelected = avatar.id;
 		this.trigger(state);
 	},
 

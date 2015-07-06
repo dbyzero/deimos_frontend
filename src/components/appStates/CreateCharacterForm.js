@@ -14,11 +14,16 @@ var CreateCharacterForm = React.createClass({
 
 	getInitialState: function(){
 		return {
-			val0:50,
-			val1:50,
-			val2:50,
-			val3:50,
-			val4:50
+			val0:6,
+			val1:6,
+			val2:6,
+			val3:6,
+			val4:6,
+			hp:600,
+			will:30,
+			willRegen:7,
+			damage:60,
+			training:60
 		}
 	},
 
@@ -37,36 +42,68 @@ var CreateCharacterForm = React.createClass({
 						label2='W'
 						label3='F'
 						label4='T'
+						size='115'
+						diameter='40'
 					>
 					</Polygone>
 				</div>
-				<div style={cssStyle['stats_hp']}><strong>{100+this.state.val1 * 9}</strong> Maximum HP</div>
-				<div style={cssStyle['stats_will']}><strong>{50+this.state.val2}</strong> Will (regen <strong>{1+this.state.val3/10}</strong>/s)</div>
-				<div style={cssStyle['stats_physical_damage']}>+<strong>{this.state.val0}</strong>% physical damage</div>
-				<div style={cssStyle['stats_skill_effeciency']}>+<strong>{2 * this.state.val4}</strong>% skill effeciency</div>
+				<div style={cssStyle['stats_hp']}><strong>{this.state.hp}</strong> Maximum HP</div>
+				<div style={cssStyle['stats_will']}><strong>{this.state.will}</strong> Will (regen <strong>{this.state.willRegen}</strong>/s)</div>
+				<div style={cssStyle['stats_physical_damage']}>+<strong>{this.state.damage}</strong>% physical damage</div>
+				<div style={cssStyle['stats_skill_effeciency']}>+<strong>{this.state.training}</strong>% skill effeciency</div>
 				<input ref="name" type="text" placeholder="Name" style={{'width':'280px'}}/>
 				<br/>
 				<div style={{width:'200px'}}>
 					<span title="+ Physical Damage" style={cssStyle['attrLeft']}>Strengh</span>
-					<input title="+ Physical damage" style={cssStyle['sliderLeft']} ref="strengh" type="range" 
+					<span style={{
+						'top': '70px',
+						'font-size': '11px',
+						'left': '69px',
+						'position': 'absolute'
+					}}>{this.state.val0}</span>
+					<input min="1" max="10" title="+ Physical damage" style={cssStyle['sliderLeft']} ref="strengh" type="range" 
 						onChange={function(e){this.updateVal('0',e.target.value);}.bind(this)}/>
 					<span title="+ HP amount" style={cssStyle['attrLeft']}>Endurance</span>
-					<input title="+ HP amount"style={cssStyle['sliderLeft']} ref="endurance" type="range" 
+					<span style={{
+						'top': '96px',
+						'font-size': '11px',
+						'left': '69px',
+						'position': 'absolute'
+					}}>{this.state.val1}</span>
+					<input min="1" max="10" title="+ HP amount"style={cssStyle['sliderLeft']} ref="endurance" type="range" 
 						onChange={function(e){this.updateVal('1',e.target.value);}.bind(this)}/>
 					<span title="+ Will objectamount" style={cssStyle['attrLeft']}>Willpower</span>
-					<input title="+ Will amount" style={cssStyle['sliderLeft']} ref="willpower" type="range" 
+					<span style={{
+						'top': '122px',
+						'font-size': '11px',
+						'left': '69px',
+						'position': 'absolute'
+					}}>{this.state.val2}</span>
+					<input min="1" max="10" title="+ Will amount" style={cssStyle['sliderLeft']} ref="willpower" type="range" 
 						onChange={function(e){this.updateVal('2',e.target.value);}.bind(this)}/>
 					<span title="+ Regen will" style={cssStyle['attrLeft']}>Focus</span>
-					<input title="+ Regen will" style={cssStyle['sliderLeft']} ref="focus" type="range" 
+					<span style={{
+						'top': '148px',
+						'font-size': '11px',
+						'left': '69px',
+						'position': 'absolute'
+					}}>{this.state.val3}</span>
+					<input min="1" max="10" title="+ Regen will" style={cssStyle['sliderLeft']} ref="focus" type="range" 
 						onChange={function(e){this.updateVal('3',e.target.value);}.bind(this)}/>
 					<span title="+ Skill effeciency" style={cssStyle['attrLeft']}>Training</span>
-					<input title="+ Skill effeciency" style={cssStyle['sliderLeft']} ref="training" type="range" 
+					<span style={{
+						'top': '174px',
+						'font-size': '11px',
+						'left': '69px',
+						'position': 'absolute'
+					}}>{this.state.val4}</span>
+					<input min="1" max="10" title="+ Skill effeciency" style={cssStyle['sliderLeft']} ref="training" type="range" 
 						onChange={function(e){this.updateVal('4',e.target.value);}.bind(this)}/>
 				</div>
 				<div ref="avatarVisual" style={cssStyle['avatarVisual']}></div>
 				<input type="color" style={cssStyle['colorPicker']} onChange={this.avatarColorChange}/>
 				<input type="button" value="Back" onClick={AppActions.showHomeScreen} style={cssStyle['backButton']}/>
-				<input type="button" value="Create" onClick={this.createAvatar} style={cssStyle['createButton']}/>
+				<input type="button" value="Create" onClick={this.createCharacter} style={cssStyle['createButton']}/>
 			</div>
 		);
 	},
@@ -74,6 +111,18 @@ var CreateCharacterForm = React.createClass({
 	updateVal: function(idx,val) {
 		var newState = {};
 		newState['val'+idx] = parseInt(val);
+		this.state['val'+idx] = parseInt(val);
+		this.setState(newState);
+		this.calcAttributes();
+	},
+
+	calcAttributes: function(idx,val) {
+		var newState = {};
+		newState['hp'] = parseInt(this.state.val1 * 100);
+		newState['will'] = parseInt(this.state.val2 * 5);
+		newState['willRegen'] = parseInt(this.state.val3);
+		newState['damage'] = parseInt(this.state.val0 * 10);
+		newState['training'] = parseInt(this.state.val4 * 10);
 		this.setState(newState);
 	},
 
@@ -81,8 +130,42 @@ var CreateCharacterForm = React.createClass({
 		this.refs['avatarVisual'].getDOMNode().style.backgroundColor = e.target.value;
 	},
 
-	createAvatar: function() {
-		//TODO
+	createCharacter: function() {
+		var data = {};
+		data['name']		= this.refs['name'].getDOMNode().value || '';
+		data['hp']			= this.state.hp || null;
+		data['will']		= this.state.will || null;
+		data['willRegen']	= this.state.willRegen || null;
+		data['damage']		= this.state.damage || null;
+		data['training']	= this.state.training || null;
+		data['strengh']		= this.state.val0 || null;
+		data['endurance']	= this.state.val1 || null;
+		data['willpower']	= this.state.val2 || null;
+		data['focus']		= this.state.val3 || null;
+		data['traning']		= this.state.val4 || null;
+
+		if(data['name'].length < 3) {
+			AppActions.serverError('nameTooShort');
+		} else if(
+			data['hp'] === null ||
+			data['will'] === null ||
+			data['willRegen'] === null ||
+			data['damage'] === null ||
+			data['training'] === null ||
+			data['strengh'] === null ||
+			data['endurance'] === null ||
+			data['willpower'] === null ||
+			data['focus'] === null ||
+			data['traning'] === null
+		) {
+			AppActions.serverError('nameTooShort');
+		} else {
+			AppActions.createCharacter(data);
+		}
+	},
+
+	componentWillMount: function() {
+		this.calcAttributes();
 	}
 });
 
@@ -95,7 +178,11 @@ var cssStyle = {
 		'clear':'both'
 	},
 	'sliderLeft' : {
-		'width':'100px'
+		'width':'90px',
+		'marginLeft':'10px'
+	},
+	'sliderVal' : {
+		'width':'10px'
 	},
 	'stats_hp' : {
 		'position':'absolute',

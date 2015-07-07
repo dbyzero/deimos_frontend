@@ -34,7 +34,7 @@ var HomeScreen = React.createClass({
 						val1={character.endurance}
 						val2={character.willpower}
 						val3={character.focus}
-						val4={character.strengh}
+						val4={character.training}
 						label0='S'
 						label1='E'
 						label2='W'
@@ -45,32 +45,32 @@ var HomeScreen = React.createClass({
 					>
 					</Polygone>
 				</div>
-				<div style={cssStyle['stats_hp']}><strong>{this.state.hp}</strong> Maximum HP</div>
-				<div style={cssStyle['stats_will']}><strong>{this.state.will}</strong> Will (regen <strong>{this.state.willRegen}</strong>/s)</div>
-				<div style={cssStyle['stats_physical_damage']}>+<strong>{this.state.damage}</strong>% physical damage</div>
-				<div style={cssStyle['stats_skill_effeciency']}>+<strong>{this.state.skillBonus}</strong>% skill effeciency</div>
+				<div style={cssStyle['stats_hp']}><strong>{character.hp}</strong> Maximum HP</div>
+				<div style={cssStyle['stats_will']}><strong>{character.will}</strong> Will (regen <strong>{character.willRegen}</strong>/s)</div>
+				<div style={cssStyle['stats_physical_damage']}>+<strong>{character.damage}</strong>% physical damage</div>
+				<div style={cssStyle['stats_skill_effeciency']}>+<strong>{character.skillBonus}</strong>% skill effeciency</div>
 				<input ref="name" type="text" placeholder="Name" style={{'width':'280px'}} defaultValue={character.name} disabled="disabled"/>
 				<br/>
 				<table style={{width:'95px'}}>
 					<tr style={cssStyle['attrTD']}>
 						<td title="+ Physical Damage" >Strengh</td>
-						<td>{this.state.val0}</td>
+						<td>{character.strengh}</td>
 					</tr>
 					<tr style={cssStyle['attrTD']}>
 						<td title="+ HP amount" >Endurance</td>
-						<td>{this.state.val1}</td>
+						<td>{character.endurance}</td>
 					</tr>
 					<tr style={cssStyle['attrTD']}>
 						<td title="+ Will objectamount" >Willpower</td>
-						<td>{this.state.val2}</td>
+						<td>{character.willpower}</td>
 					</tr>
 					<tr style={cssStyle['attrTD']}>
 						<td title="+ Regen will" >Focus</td>
-						<td>{this.state.val3}</td>
+						<td>{character.focus}</td>
 					</tr>
 					<tr style={cssStyle['attrTD']}>
 						<td title="+ Skill effeciency" >Training</td>
-						<td>{this.state.val4}</td>
+						<td>{character.training}</td>
 					</tr>
 				</table>
 				<br/>

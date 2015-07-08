@@ -18,7 +18,7 @@ var MainContainer = React.createClass({
 		return (
 			<div id="puck-main-container-wrapper" style={{
 					'top':(this.props.isHidden ? '-281px' : '0px'),
-					'transition-timing-function': (this.props.isHidden ? 'linear' : 'cubic-bezier(1,1.67,.29,.65)')
+					'transitionTimingFunction': (this.props.isHidden ? 'linear' : 'cubic-bezier(1,1.67,.29,.65)')
 				}}>
 				<div id="puck-main-container-chain"></div>
 				<div id="puck-main-container">

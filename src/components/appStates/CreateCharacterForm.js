@@ -42,8 +42,8 @@ var CreateCharacterForm = React.createClass({
 						label2='W'
 						label3='F'
 						label4='T'
-						size='115'
-						diameter='40'
+						size={115}
+						diameter={40}
 					>
 					</Polygone>
 				</div>

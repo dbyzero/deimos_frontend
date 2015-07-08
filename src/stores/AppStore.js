@@ -54,7 +54,6 @@ var AppStore = Reflux.createStore({
 
 	getCurrentAvatar: function() {
 		for (var i = 0; i < state.characters.length; i++) {
-			console.log(state.characters[i].id);
 			if(state.characters[i].id == state.currentAvatarSelected) {
 				return state.characters[i];
 			}

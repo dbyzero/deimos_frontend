@@ -25,7 +25,6 @@ var HomeScreen = React.createClass({
 
 	render: function() {
 		var character = AppStore.getCurrentAvatar();
-		console.log(character);
 		return (
 			<div style={{'position':'Nelative','height':'100%'}}>
 				<div style={cssStyle['polygone']}>
@@ -40,8 +39,8 @@ var HomeScreen = React.createClass({
 						label2='W'
 						label3='F'
 						label4='T'
-						size='137'
-						diameter='48'
+						size={137}
+						diameter={48}
 					>
 					</Polygone>
 				</div>
@@ -49,7 +48,7 @@ var HomeScreen = React.createClass({
 				<div style={cssStyle['stats_will']}><strong>{character.will}</strong> Will (regen <strong>{character.willRegen}</strong>/s)</div>
 				<div style={cssStyle['stats_physical_damage']}>+<strong>{character.damage}</strong>% physical damage</div>
 				<div style={cssStyle['stats_skill_effeciency']}>+<strong>{character.skillBonus}</strong>% skill effeciency</div>
-				<input ref="name" type="text" placeholder="Name" style={{'width':'280px'}} defaultValue={character.name} disabled="disabled"/>
+				<div style={cssStyle['name']}>{character.name}</div>
 				<br/>
 				<table style={{width:'95px'}}>
 					<tr style={cssStyle['attrTD']}>
@@ -104,6 +103,13 @@ var HomeScreen = React.createClass({
 });
 
 var cssStyle = {
+	'name' : {
+		'width':'100%',
+		'fontSize':'14px',
+		'fontWeight':'bold',
+		'margin':'5px 0 5px 0',
+		'textAlign':'center'
+	},
 	'attrTD' : {
 		'fontSize':'11px',
 	},
@@ -142,8 +148,8 @@ var cssStyle = {
 		'width':'137',
 		'height':'137px',
 		'position':'absolute',
-		'top':'71px',
-		'right':'43px'
+		'top':'75px',
+		'right':'25px'
 	},
 	'colorPicker' : {
 		'width':'35px',

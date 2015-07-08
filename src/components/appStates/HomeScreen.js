@@ -16,7 +16,7 @@ var HomeScreen = React.createClass({
 			<div>
 				Account : {this.state.account}<br/>
 				Character : {this.state.currentAvatarSelected}<br/>
-				<select onChange={this.onChangeAvatarSelected}>
+				<select onChange={this.onChangeAvatarSelected} defaultValue={this.state.currentAvatarSelected}>
 				{this.renderCharacterList()}
 				</select>
 				<input type="button" value="Add" onClick={AppActions.showCreateCharacterForm}/>
@@ -40,7 +40,7 @@ var HomeScreen = React.createClass({
 	},
 
 	renderCharacter: function(character) {
-		return <option value={character.id} selected={this.state.currentAvatarSelected == character.id}>{character.name}</option>;
+		return <option key={character.id} value={character.id}>{character.name}</option>;
 	},
 
 	onChangeAvatarSelected: function(e) {

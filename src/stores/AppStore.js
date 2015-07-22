@@ -73,7 +73,7 @@ var AppStore = Reflux.createStore({
 		state.account = data.login;
 		state.characters = data.characters;
 		//select first char by default
-		if(state.characters.length > 0 && state.currentAvatarSelected === null) {
+		if(state.characters.length > 0 && state.currentAvatarSelected == null) {
 			state.currentAvatarSelected = state.characters[0].id;
 		}
 		state.appState = 'HomeScreen';

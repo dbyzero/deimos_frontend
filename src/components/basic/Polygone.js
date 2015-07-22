@@ -32,7 +32,7 @@ var Polygone = React.createClass({
 	},
 
 	renderPolygone:function() {
-		renderPolygone(this.getDOMNode(),this.props.size,this.props.size,this.props,this.props.diameter,10, 11,'CC0000');
+		renderPolygone(this.getDOMNode(),this.props.size,this.props.size,this.props,this.props.diameter,20, 11,'CC0000');
 	}
 });
 
@@ -87,12 +87,12 @@ var renderPolygone = function(canvas, width, height, props, diameter, maxVal, fo
 
 	//render vals
 	context.beginPath();
-	var x = parseInt(Math.cos(angle[0])*Math.min(maxVal,parseInt(props['val0']))*diameter/maxVal + vX);
-	var y = parseInt(Math.sin(angle[0])*Math.min(maxVal,parseInt(props['val0']))*diameter/maxVal + vY);
+	var x = parseInt(Math.cos(angle[0])*Math.min(maxVal,parseInt(5 + props['val0']))*diameter/maxVal + vX);
+	var y = parseInt(Math.sin(angle[0])*Math.min(maxVal,parseInt(5 + props['val0']))*diameter/maxVal + vY);
 	context.moveTo(x,y);
 	for(var i=0;i<5;i++) {
-		x = parseInt(Math.cos(angle[i])*Math.min(maxVal,parseInt(props['val'+i]))*diameter/maxVal + vX);
-		y = parseInt(Math.sin(angle[i])*Math.min(maxVal,parseInt(props['val'+i]))*diameter/maxVal + vY);
+		x = parseInt(Math.cos(angle[i])*Math.min(maxVal,parseInt(5 + props['val'+i]))*diameter/maxVal + vX);
+		y = parseInt(Math.sin(angle[i])*Math.min(maxVal,parseInt(5 + props['val'+i]))*diameter/maxVal + vY);
 		context.lineTo(x,y);
 	}
 	context.closePath();

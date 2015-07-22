@@ -22,7 +22,7 @@ var HomeScreen = React.createClass({
 				<input type="button" value="Add" onClick={AppActions.showCreateCharacterForm}/>
 				<ul>
 					<li><a href="javascript:void(0);" onClick={AppActions.showCharacterSheetScreen}>Character Sheet</a></li>
-					<li><a href="javascript:void(0);">Go to Home</a></li>
+					<li><a href="javascript:void(0);" onClick={AppActions.gameCreateServer}>Go to Home</a></li>
 					<li><a href="javascript:void(0);" onClick={AppActions.showJoinPartyScreen}>Join a Party</a></li>
 					<li><a href="javascript:void(0);" onClick={AppActions.showCreatePartyScreen}>Create a Party</a></li>
 				</ul>

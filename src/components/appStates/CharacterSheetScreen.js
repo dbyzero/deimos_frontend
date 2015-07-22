@@ -25,6 +25,8 @@ var HomeScreen = React.createClass({
 
 	render: function() {
 		var character = AppStore.getCurrentAvatar();
+		var avatarVisualCss = cssStyle['avatarVisual'];
+		avatarVisualCss['backgroundColor'] = character.rgba;
 		return (
 			<div style={{'position':'Nelative','height':'100%'}}>
 				<div style={cssStyle['polygone']}>
@@ -73,7 +75,7 @@ var HomeScreen = React.createClass({
 					</tr>
 				</table>
 				<br/>
-				<div ref="avatarVisual" style={cssStyle['avatarVisual']}></div>
+				<div ref="avatarVisual" style={avatarVisualCss}></div>
 				<input type="button" value="Back" onClick={AppActions.showHomeScreen} style={cssStyle['backButton']}/>
 			</div>
 		);

@@ -23,7 +23,8 @@ var CreateCharacterForm = React.createClass({
 			will:30,
 			willRegen:7,
 			damage:60,
-			skillBonus:60
+			skillBonus:60,
+			color:'#000000'
 		}
 	},
 
@@ -42,6 +43,7 @@ var CreateCharacterForm = React.createClass({
 						label2='W'
 						label3='F'
 						label4='T'
+						color='000000'
 						size={115}
 						diameter={40}
 					>
@@ -128,6 +130,7 @@ var CreateCharacterForm = React.createClass({
 
 	avatarColorChange: function(e) {
 		this.refs['avatarVisual'].getDOMNode().style.backgroundColor = e.target.value;
+		this.setState({'color':e.target.value});
 	},
 
 	createCharacter: function() {
@@ -142,7 +145,8 @@ var CreateCharacterForm = React.createClass({
 		data['endurance']	= this.state.val1 || null;
 		data['willpower']	= this.state.val2 || null;
 		data['focus']		= this.state.val3 || null;
-		data['training']		= this.state.val4 || null;
+		data['training']	= this.state.val4 || null;
+		data['color']		= this.state.color || '#000000';
 
 		if(data['name'].length < 3) {
 			AppActions.serverError('nameTooShort');
@@ -156,9 +160,10 @@ var CreateCharacterForm = React.createClass({
 			data['endurance'] === null ||
 			data['willpower'] === null ||
 			data['focus'] === null ||
-			data['training'] === null
+			data['training'] === null ||
+			data['color'] === null
 		) {
-			AppActions.serverError('nameTooShort');
+			AppActions.serverError('formError');
 		} else {
 			AppActions.createCharacter(data);
 		}

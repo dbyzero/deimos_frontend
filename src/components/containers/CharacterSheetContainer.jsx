@@ -44,6 +44,7 @@ var CharacterSheetContainer = React.createClass({
 			inventory.push(
 				<div key={i} style={cssStyle['inventorySlot']}
 					onDragOver={this.onDragOverContainer}
+					onDragLeave={this.onDragLeaveContainer}
 					onDrop={this.onDropOverContainer}
 				>
 					{this.renderItem(i)}
@@ -65,6 +66,7 @@ var CharacterSheetContainer = React.createClass({
 			draggable={true}
 			onDragStart={this.onDragStart}
 			onDragOver={this.onDragOverItem}
+			onDragLeave={this.onDragLeaveItem}
 			onDrop={this.onDropOverItem}
 		></div>);
 	},
@@ -77,6 +79,11 @@ var CharacterSheetContainer = React.createClass({
 	onDragOverItem: function(e) {
 		if (e.preventDefault) e.preventDefault(); // allows us to drop
 		e.dataTransfer.dropEffect = 'move';
+		e.target.parentNode.style.backgroundColor = 'rgba(0,0,0,0.6)';
+	},
+
+	onDragLeaveItem: function(e) {
+		e.target.parentNode.style.backgroundColor = 'rgba(255,255,255,0.6)';
 	},
 
 	onDropOverItem: function(e) {
@@ -86,6 +93,7 @@ var CharacterSheetContainer = React.createClass({
 		var originalContainer = originalContent.parentNode;
 		var targetContainer = e.target.parentNode;
 		var targetContent = e.target;
+		targetContainer.style.backgroundColor = 'rgba(255,255,255,0.6)';
 		targetContainer.appendChild(originalContent);
 		originalContainer.appendChild(targetContent);
 		e.stopPropagation();
@@ -94,6 +102,11 @@ var CharacterSheetContainer = React.createClass({
 	onDragOverContainer: function(e) {
 		if (e.preventDefault) e.preventDefault(); // allows us to drop
 		e.dataTransfer.dropEffect = 'move';
+		e.target.style.backgroundColor = 'rgba(0,0,0,0,0.6)';
+	},
+
+	onDragLeaveContainer: function(e) {
+		e.target.style.backgroundColor = 'rgba(255,255,255,0.6)';
 	},
 
 	onDropOverContainer: function(e) {
@@ -101,6 +114,7 @@ var CharacterSheetContainer = React.createClass({
 		var sourceDomId = e.dataTransfer.getData("text/html");
 		var originalContent = document.getElementById(sourceDomId);
 		var targetContainer = e.target;
+		targetContainer.style.backgroundColor = 'rgba(255,255,255,0.6)';
 		targetContainer.appendChild(originalContent);
 		e.stopPropagation();
 	},
@@ -150,30 +164,35 @@ var CharacterSheetContainer = React.createClass({
 		return (
 			<div style={cssStyle['equipment']}>
 				<div style={cssStyle['equipementSlotHead1']}
+					onDragLeave={this.onDragLeaveContainer}
 					onDragOver={this.onDragOverContainer}
 					onDrop={this.onDropOverContainer}
 				>
 					{this.renderItem(1001)}
 				</div>
 				<div style={cssStyle['equipementSlotHead2']}
+					onDragLeave={this.onDragLeaveContainer}
 					onDragOver={this.onDragOverContainer}
 					onDrop={this.onDropOverContainer}
 				>
 					{this.renderItem(1002)}
 				</div>
 				<div style={cssStyle['equipementSlotBody']}
+					onDragLeave={this.onDragLeaveContainer}
 					onDragOver={this.onDragOverContainer}
 					onDrop={this.onDropOverContainer}
 				>
 					{this.renderItem(1003)}
 				</div>
 				<div style={cssStyle['equipementSlotHandL']}
+					onDragLeave={this.onDragLeaveContainer}
 					onDragOver={this.onDragOverContainer}
 					onDrop={this.onDropOverContainer}
 				>
 					{this.renderItem(1004)}
 				</div>
 				<div style={cssStyle['equipementSlotHandR']}
+					onDragLeave={this.onDragLeaveContainer}
 					onDragOver={this.onDragOverContainer}
 					onDrop={this.onDropOverContainer}
 				>
@@ -181,6 +200,7 @@ var CharacterSheetContainer = React.createClass({
 				</div>
 				<div
 					style={cssStyle['equipementSlotFeet']}
+					onDragLeave={this.onDragLeaveContainer}
 					onDragOver={this.onDragOverContainer}
 					onDrop={this.onDropOverContainer}
 				>

@@ -158,6 +158,7 @@ Actions.askCookie.listen(function(message) {
 
 Actions.getSessionInfoCookie.listen(function(sessionInfoRaw) {
 	try {
+		// console.log(sessionInfoRaw);
 		var sessioninfo = JSON.parse(sessionInfoRaw);
 		if(sessioninfo && sessioninfo.sessionid && sessioninfo.username) {
 			wsConnection.emit('loginBySessionId',{data:{'login':sessioninfo.username,'sessionid':sessioninfo.sessionid}});
@@ -165,6 +166,7 @@ Actions.getSessionInfoCookie.listen(function(sessionInfoRaw) {
 		Actions.setCharacterSelected(sessioninfo.currentAvatarSelected || null);
 	} catch(err) {
 		console.error(err);
+		console.error('Cannot get session info cookie');
 		Actions.loggout();
 	}
 });
@@ -276,6 +278,7 @@ Actions.gameJoinServer.listen(function (port) {
 		serverURL : Config.gameServerDomain,
 		serverPort : port,
 		serverAssetURL : Config.assetURL,
+		avatarId : currentAvatarSelected.id,
 		sessionId : sessionid
 	};
 

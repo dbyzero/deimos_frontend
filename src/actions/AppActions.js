@@ -118,7 +118,7 @@ Actions.register.listen(function (login,password,mail) {
 
 Actions.createCharacter.listen(function (data) {
 	console.log( __filename + ' createCharacter ' );
-	data['username'] = username;
+	data['account_name'] = username;
 	wsConnection.emit('createCharacter',{'data':data});
 });
 

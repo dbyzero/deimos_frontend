@@ -32,7 +32,7 @@ var CreateCharacterForm = React.createClass({
 		return (
 			<div style={{'position':'Nelative','height':'100%'}}>
 				<div style={cssStyle['polygone']}>
-					<Polygone ref="polygone" 
+					<Polygone ref="polygone"
 						val0={this.state.val0}
 						val1={this.state.val1}
 						val2={this.state.val2}
@@ -63,7 +63,7 @@ var CreateCharacterForm = React.createClass({
 						'left': '69px',
 						'position': 'absolute'
 					}}>{this.state.val0}</span>
-					<input min="1" max="10" title="+ Physical damage" style={cssStyle['sliderLeft']} ref="strengh" type="range" 
+					<input min="1" max="10" title="+ Physical damage" style={cssStyle['sliderLeft']} ref="strengh" type="range"
 						onChange={function(e){this.updateVal('0',e.target.value);}.bind(this)}/>
 					<span title="+ HP amount" style={cssStyle['attrLeft']}>Endurance</span>
 					<span style={{
@@ -72,7 +72,7 @@ var CreateCharacterForm = React.createClass({
 						'left': '69px',
 						'position': 'absolute'
 					}}>{this.state.val1}</span>
-					<input min="1" max="10" title="+ HP amount"style={cssStyle['sliderLeft']} ref="endurance" type="range" 
+					<input min="1" max="10" title="+ HP amount"style={cssStyle['sliderLeft']} ref="endurance" type="range"
 						onChange={function(e){this.updateVal('1',e.target.value);}.bind(this)}/>
 					<span title="+ Will objectamount" style={cssStyle['attrLeft']}>Willpower</span>
 					<span style={{
@@ -81,7 +81,7 @@ var CreateCharacterForm = React.createClass({
 						'left': '69px',
 						'position': 'absolute'
 					}}>{this.state.val2}</span>
-					<input min="1" max="10" title="+ Will amount" style={cssStyle['sliderLeft']} ref="willpower" type="range" 
+					<input min="1" max="10" title="+ Will amount" style={cssStyle['sliderLeft']} ref="willpower" type="range"
 						onChange={function(e){this.updateVal('2',e.target.value);}.bind(this)}/>
 					<span title="+ Regen will" style={cssStyle['attrLeft']}>Focus</span>
 					<span style={{
@@ -90,7 +90,7 @@ var CreateCharacterForm = React.createClass({
 						'left': '69px',
 						'position': 'absolute'
 					}}>{this.state.val3}</span>
-					<input min="1" max="10" title="+ Regen will" style={cssStyle['sliderLeft']} ref="focus" type="range" 
+					<input min="1" max="10" title="+ Regen will" style={cssStyle['sliderLeft']} ref="focus" type="range"
 						onChange={function(e){this.updateVal('3',e.target.value);}.bind(this)}/>
 					<span title="+ Skill effeciency" style={cssStyle['attrLeft']}>Training</span>
 					<span style={{
@@ -99,7 +99,7 @@ var CreateCharacterForm = React.createClass({
 						'left': '69px',
 						'position': 'absolute'
 					}}>{this.state.val4}</span>
-					<input min="1" max="10" title="+ Skill effeciency" style={cssStyle['sliderLeft']} ref="training" type="range" 
+					<input min="1" max="10" title="+ Skill effeciency" style={cssStyle['sliderLeft']} ref="training" type="range"
 						onChange={function(e){this.updateVal('4',e.target.value);}.bind(this)}/>
 				</div>
 				<div ref="avatarVisual" style={cssStyle['avatarVisual']}></div>
@@ -135,33 +135,33 @@ var CreateCharacterForm = React.createClass({
 
 	createCharacter: function() {
 		var data = {};
-		data['name']		= this.refs['name'].getDOMNode().value || '';
-		data['hp']			= this.state.hp || null;
-		data['will']		= this.state.will || null;
-		data['willRegen']	= this.state.willRegen || null;
-		data['damage']		= this.state.damage || null;
-		data['skillBonus']	= this.state.skillBonus || null;
-		data['strengh']		= this.state.val0 || null;
-		data['endurance']	= this.state.val1 || null;
-		data['willpower']	= this.state.val2 || null;
-		data['focus']		= this.state.val3 || null;
-		data['training']	= this.state.val4 || null;
-		data['color']		= this.state.color || '#000000';
+		data['name']		= this.refs['name'].getDOMNode().value;
+		data['strengh']		= this.state.val0;
+		data['endurance']	= this.state.val1;
+		data['willpower']	= this.state.val2;
+		data['focus']		= this.state.val3;
+		data['training']	= this.state.val4;
+		data['rgba']		= this.state.color;
+		data['item_slot_chest'] = {};
+		data['item_slot_foot'] = {};
+		data['item_slot_head'] = {};
+		data['item_slot_head2'] = {};
+		data['item_slot_left_hand'] = {};
+		data['item_slot_right_hand'] = {};
+		data['inventory'] = {};
+		data['mass'] = 1;
+		data['size'] = { x: 40, y: 60 };
+		data['deltashow'] = { x: 30, y: 40 };
 
 		if(data['name'].length < 3) {
 			AppActions.serverError('nameTooShort');
 		} else if(
-			data['hp'] === null ||
-			data['will'] === null ||
-			data['willRegen'] === null ||
-			data['damage'] === null ||
-			data['skillBonus'] === null ||
 			data['strengh'] === null ||
 			data['endurance'] === null ||
 			data['willpower'] === null ||
 			data['focus'] === null ||
 			data['training'] === null ||
-			data['color'] === null
+			data['rgba'] === null
 		) {
 			AppActions.serverError('formError');
 		} else {

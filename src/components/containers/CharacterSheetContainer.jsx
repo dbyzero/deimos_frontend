@@ -37,10 +37,11 @@ var CharacterSheetContainer = React.createClass({
 	},
 
 	renderInventorySlots: function(character) {
-		character.inventory.length = Math.max(character.inventory.length,127);
+		var length = character.inventory ? character.inventory.length : 0;
+		length = Math.max(length,127);
 
 		var inventory = [];
-		for (var i = 0; i < character.inventory.length; i++) {
+		for (var i = 0; i < length; i++) {
 			inventory.push(
 				<div key={i} style={cssStyle['inventorySlot']}
 					onDragOver={this.onDragOverContainer}
@@ -55,7 +56,7 @@ var CharacterSheetContainer = React.createClass({
 	},
 
 	renderItem:function (id) {
-		return (<div id={id} 
+		return (<div id={id}
 			style={{
 				'width':'32px',
 				'height':'32px',

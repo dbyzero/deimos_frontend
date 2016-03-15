@@ -142,16 +142,6 @@ var CreateCharacterForm = React.createClass({
 		data['focus']		= this.state.val3;
 		data['training']	= this.state.val4;
 		data['rgba']		= this.state.color;
-		data['item_slot_chest'] = {};
-		data['item_slot_foot'] = {};
-		data['item_slot_head'] = {};
-		data['item_slot_head2'] = {};
-		data['item_slot_left_hand'] = {};
-		data['item_slot_right_hand'] = {};
-		data['inventory'] = {};
-		data['mass'] = 1;
-		data['size'] = { x: 40, y: 60 };
-		data['deltashow'] = { x: 30, y: 40 };
 
 		if(data['name'].length < 3) {
 			AppActions.serverError('nameTooShort');

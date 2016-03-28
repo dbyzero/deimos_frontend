@@ -1,1 +1,1 @@
-# puck client
+# deimos frontend

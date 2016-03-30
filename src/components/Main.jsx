@@ -4,8 +4,8 @@ var AppStore = require('../stores/AppStore');
 var AppActions = require('../actions/AppActions');
 
 // var Chat = require('./Chat');
-var MainContainer = require('./containers/MainContainer.jsx');
-var CharacterSheetContainer = require('./containers/CharacterSheetContainer.jsx');
+var MainContainer = require('./containers/MainContainer');
+var CharacterSheetContainer = require('./containers/CharacterSheetContainer');
 // var LoginForm = require('./LoginForm');
 // var GameManager = require('./GameManager');
 

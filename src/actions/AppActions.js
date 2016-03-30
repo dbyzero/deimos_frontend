@@ -3,6 +3,7 @@ var Config = require('../../Config');
 var io = require('socket.io-client');
 var request = require('request');
 var base64 = require('base64-url');
+var Client = require('../client/Engine.js');
 
 // Test actions
 var Actions = Reflux.createActions([
@@ -282,7 +283,7 @@ Actions.gameJoinServer.listen(function (port) {
 		sessionId : sessionid
 	};
 
-	org.dbyzero.deimos.Engine.start(config);
+	Client.start(config);
 });
 
 Actions.gameStartServer.listen(function (serverName) {

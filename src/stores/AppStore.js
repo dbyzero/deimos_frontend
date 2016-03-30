@@ -23,7 +23,8 @@ var INITIAL_STATE = {
 	'characters' : [],
 	'isHidden' : false,
 	'showInventory' : false,
-	'currentAvatarSelected' : null
+	'currentAvatarSelected' : null,
+	'appState' : 'LoginForm'
 };
 
 // App store
@@ -38,6 +39,7 @@ var AppStore = Reflux.createStore({
 	init:function () {
 		console.log(__filename + ' init ' + arguments);
 		state = INITIAL_STATE;
+		this.trigger(state);
 	},
 
 	onConnected: function() {

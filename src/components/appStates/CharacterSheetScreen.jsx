@@ -1,7 +1,6 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var Reflux = require('reflux');
-var md5 = require('MD5');
 
 var AppStore = require('../../stores/AppStore');
 var AppActions = require('../../actions/AppActions.js');
@@ -30,7 +29,7 @@ var HomeScreen = React.createClass({
 		return (
 			<div style={{'position':'Nelative','height':'100%'}}>
 				<div style={cssStyle['polygone']}>
-					<Polygone ref="polygone" 
+					<Polygone ref="polygone"
 						val0={character.strengh}
 						val1={character.endurance}
 						val2={character.willpower}

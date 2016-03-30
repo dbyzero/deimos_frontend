@@ -4,10 +4,9 @@
   "description": "Deimos Frontend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run serve | npm run dev",
-    "serve": "./node_modules/.bin/http-server -p 8080",
-    "dev": "webpack-dev-server --progress --colors --port 8090"
+    "start": "webpack -p && ./node_modules/.bin/http-server -p 80",
+    "dev": "webpack -d --watch --progress",
+    "dev-server" : "webpack -d && webpack-dev-server --progress --colors --port 8090"
   },
   "repository": {
     "type": "git",
@@ -16,18 +15,18 @@
   "author": "cyril@dbyzero.com",
   "license": "private",
   "dependencies": {
-    "MD5": "^1.2.2",
     "base64-url": "^1.2.1",
     "lodash": "^3.10.0",
+    "md5": "^2.1.0",
     "promise": "^7.0.3",
     "react": "^0.13.2",
     "reflux": "^0.2.7",
-    "request": "^2.57.0",
     "socket.io": "^1.3.5",
     "socket.io-client": "^1.3.5"
   },
   "devDependencies": {
     "http-server": "^0.9.0",
+    "json-loader": "^0.5.4",
     "jsx-loader": "^0.13.2",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1"

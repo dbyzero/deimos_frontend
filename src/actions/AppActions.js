@@ -1,7 +1,6 @@
 var Reflux = require('reflux');
 var Config = require('../../Config');
 var io = require('socket.io-client');
-var request = require('request');
 var base64 = require('base64-url');
 var Client = require('../client/Engine.js');
 
@@ -200,7 +199,7 @@ Actions.sendMessageToIFrame.listen(function(message) {
 Actions.receiveMessageFromIFrame.listen(function(event) {
 	if(event.origin !== Config.serverURL) return;
 	var value = event.data.value ? base64.decode(base64.decode(event.data.value).slice(0,-1*TOKEN_SECRET.length)) : null;
-	if(event.data.key === SESSION_COOKIE_KEY) {
+	if(event.data.key === SESSION_COOKIE_KEY && value.length > 0) {
 		Actions.getSessionInfoCookie(value);
 	}
 });
@@ -307,7 +306,7 @@ Actions.gameManagerToggle.listen(function () {
 
 Actions.gameCleanGameArea.listen(function () {
 	console.log( __filename + ' gameCleanGameArea ' );
-	org.dbyzero.deimos.Engine.stop();
+	Client.stop();
 	var gamezone = document.getElementById(GAME_CONTAINER_DOM_ID);
 	if(gamezone) gamezone.parentNode.removeChild(gamezone);
 });

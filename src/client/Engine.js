@@ -85,9 +85,11 @@ Engine.stop = function() {
 	if(Socket !== null) {
 		Socket.disconnect();
 	}
-	gameLoop.stop();
-	unbindAllKeys();
-	inGame = false;
+	if(inGame === true) {
+		gameLoop.stop();
+		unbindAllKeys();
+		inGame = false;
+	}
 }
 
 Engine.isInGame = function() {

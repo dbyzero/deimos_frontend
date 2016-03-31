@@ -199,7 +199,7 @@ Actions.sendMessageToIFrame.listen(function(message) {
 Actions.receiveMessageFromIFrame.listen(function(event) {
 	if(event.origin !== Config.serverURL) return;
 	var value = event.data.value ? base64.decode(base64.decode(event.data.value).slice(0,-1*TOKEN_SECRET.length)) : null;
-	if(event.data.key === SESSION_COOKIE_KEY && value.length > 0) {
+	if(event.data.key === SESSION_COOKIE_KEY && value && value.length > 0) {
 		Actions.getSessionInfoCookie(value);
 	}
 });

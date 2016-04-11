@@ -37,7 +37,6 @@ var Actions = Reflux.createActions([
 	"showIngameScreen",
 	"showCharacterSheetScreen",
 
-	"gameCreateServer",
 	"gameManagerToggle",
 	"gameJoinServer",
 	"gameStartServer",
@@ -240,11 +239,6 @@ Actions.showCharacterSheetScreen.listen(function(event) {
  * Game actions
  ***************/
 
-Actions.gameCreateServer.listen(function (msg) {
-	console.log( __filename + ' gameTest2 ' + msg );
-	wsConnection.emit('game.test2','home_25');
-});
-
 Actions.gameFillServerList.listen(function (list) {
 	console.log( __filename + ' disconnected ' + arguments );
 });
@@ -254,50 +248,43 @@ Actions.gameDestroyServer.listen(function (serverName) {
 	wsConnection.emit('game.destroyServer',{data:{'serverName':serverName}});
 });
 
-Actions.gameJoinServer.listen(function (port) {
-	console.log( __filename + ' gameJoinServer ' + arguments );
+Actions.gameJoinServer.listen(function (game) {
+	console.log( __filename + ' gameJoinServer ' + game );
 
-	//create arena
-	var div = document.createElement('div');
-	div.style.width = '675px';
-	div.style.height = '500px';
-	div.style.overflow =' hidden';
-	div.style.border = '2px solid black';
-	div.style.position = 'fixed';
-	div.style.zIndex = '1024';
-	div.style.top = '170px';
-	div.style.left = '10px';
-	div.style.backgroundColor = '#fff';
-	div.attr = '#fff';
-	div.setAttribute('id',GAME_CONTAINER_DOM_ID);
-	document.getElementsByTagName('body')[0].appendChild(div);
+	// //create arena
+	// var div = document.createElement('div');
+	// div.style.width = '675px';
+	// div.style.height = '500px';
+	// div.style.overflow =' hidden';
+	// div.style.border = '2px solid black';
+	// div.style.position = 'fixed';
+	// div.style.zIndex = '1024';
+	// div.style.top = '170px';
+	// div.style.left = '10px';
+	// div.style.backgroundColor = '#fff';
+	// div.attr = '#fff';
+	// div.setAttribute('id',GAME_CONTAINER_DOM_ID);
+	// document.getElementsByTagName('body')[0].appendChild(div);
 
-	//join game
-	var config = {
-		domId : GAME_CONTAINER_DOM_ID,
-		serverURL : Config.gameServerDomain,
-		serverPort : port,
-		serverAssetURL : Config.assetURL,
-		avatarId : currentAvatarSelected.id,
-		sessionId : sessionid
-	};
+	// //join game
+	// var config = {
+	// 	domId : GAME_CONTAINER_DOM_ID,
+	// 	serverURL : Config.gameServerDomain,
+	// 	serverPort : port,
+	// 	serverAssetURL : Config.assetURL,
+	// 	avatarId : currentAvatarSelected.id,
+	// 	sessionId : sessionid
+	// };
 
-	Client.start(config);
+	wsConnection.emit('game.joinServer', {'data':{'serverName':game}});
+
+	// Client.start(config);
 });
 
-Actions.gameStartServer.listen(function (serverName) {
-	console.log( __filename + ' gameStartServer ' + serverName );
-	wsConnection.emit('game.startServer',{data:{'serverName':serverName}});
-});
 
 Actions.gameLeaveServer.listen(function () {
 	console.log( __filename + ' gameLeaveServer ');
 	Actions.gameCleanGameArea();
-});
-
-Actions.gameStopServer.listen(function (serverName) {
-	console.log( __filename + ' gameStopServer ' + serverName );
-	wsConnection.emit('game.stopServer',{data:{'serverName':serverName}});
 });
 
 Actions.gameManagerToggle.listen(function () {
@@ -311,9 +298,14 @@ Actions.gameCleanGameArea.listen(function () {
 	if(gamezone) gamezone.parentNode.removeChild(gamezone);
 });
 
-Actions.gameInitLevel.listen(function (config) {
-	console.log( __filename + ' gameInitLevel ' );
-	wsConnection.emit('game.initLevel',{'config':config});
+Actions.gameStartServer.listen(function (serverName) {
+	console.log( __filename + ' gameStartServer ' + serverName );
+	wsConnection.emit('game.startServer',{data:{'serverName':serverName}});
+});
+
+Actions.gameStopServer.listen(function (serverName) {
+	console.log( __filename + ' gameStopServer ' + serverName );
+	wsConnection.emit('game.stopServer',{data:{'serverName':serverName}});
 });
 
 module.exports = Actions;

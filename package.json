@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack -p && ./node_modules/.bin/http-server -p 80",
     "dev": "webpack -d --watch --progress",
-    "dev-server" : "webpack -d && webpack-dev-server --progress --colors --port 8090"
+    "dev-server" : "webpack -d && webpack-dev-server --watch --progress --colors --port 8090"
   },
   "repository": {
     "type": "git",
